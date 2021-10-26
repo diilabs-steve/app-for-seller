@@ -5,6 +5,7 @@ import { COMMON_NAVIGATE_ENUM } from "../navigationVar";
 import BarcodeScanPage from "../components/common/barcodeScanPage";
 import { TouchableOpacity, Image, View } from "react-native";
 import CloseImg from "../assets/modal/close_popup.png"
+import HambergerMenu from "../components/hambergerMenu";
 
 
 const RootNavigations = (props) => {
@@ -33,23 +34,24 @@ const RootNavigations = (props) => {
         <Stack.Navigator screenOptions={{ animationEnabled: true }} mode="modal">
             <Stack.Screen name={"root"} component={MainPageNavigations} initialParams={{ ctx }} options={{ headerShown: false }} />
             <Stack.Screen name={COMMON_NAVIGATE_ENUM.BARCODE_SCANNER} component={BarcodeScanPage} initialParams={{ ctx }} options={modalOption} />
+            <Stack.Screen name={COMMON_NAVIGATE_ENUM.HAMBERGER_MENU} component={HambergerMenu} initialParams={{ ctx }} options={modalOption} />
         </Stack.Navigator>
     )
 }
 
 export default RootNavigations;
 
-    const CloseBtn = (props) => {
+const CloseBtn = (props) => {
 
-        const {
-            navigation
-        } = props
+    const {
+        navigation
+    } = props
 
-        return (
-            <View style={{ flexDirection: "row-reverse" }}>
-                <TouchableOpacity onPress={() => { navigation.goBack()}} style={{ marginRight: 20 }}>
-                    <Image source={CloseImg} style={{ width: 22, height: 22, resizeMode: "stretch" }} />
-                </TouchableOpacity>
-            </View>
-        )
-    }
+    return (
+        <View style={{ flexDirection: "row-reverse" }}>
+            <TouchableOpacity onPress={() => { navigation.goBack()}} style={{ marginRight: 20 }}>
+                <Image source={CloseImg} style={{ width: 22, height: 22, resizeMode: "stretch" }} />
+            </TouchableOpacity>
+        </View>
+    )
+}

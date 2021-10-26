@@ -4,7 +4,7 @@ import SearchImg from "../../../assets/input/search.png";
 import ScanImg from "../../../assets/button/scan.png";
 import CustomButton from '../util/customButton';
 import { COMMON_NAVIGATE_ENUM } from '../../../navigationVar';
-import { COMMON_BORDER_RADIUS, COMMON_BOX_SHADOW } from '../enum/commonStyleEnum';
+import { COMMON_BORDER_RADIUS, COMMON_BOX_SHADOW, COMMON_SMALL_FONT_SIZE } from '../enum/commonStyleEnum';
 
 const SIZE_ENUM = Object.assign({
     DEFAULT: "default",
@@ -68,18 +68,19 @@ const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: "#ffffff",
     ...COMMON_BOX_SHADOW,
-    fontSize: 18,
+    fontSize: COMMON_SMALL_FONT_SIZE,
     zIndex:0
   },
   container: {
-        position: "relative",
-        flexDirection: "row",
-        alignItems: "center",
-        width: "100%",
+    position: "relative",
+    flexDirection: "row",
+    alignItems: "center",
+    width: "100%",
   },
   searchImg: { width: 20, height: 20, resizeMode: "stretch", position: "absolute", zIndex: 90, marginLeft: 20 },
   scanImg: { width: 20, height: 20, resizeMode: "stretch" },
   scanBtn: {
+      backgroundColor: "#E5E5E5",
       borderRadius: COMMON_BORDER_RADIUS,
       width: 60,
       height: 60,

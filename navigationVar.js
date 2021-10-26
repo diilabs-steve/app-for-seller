@@ -36,5 +36,6 @@ export const STEP_NAVIGATE_ENUM = Object.freeze({
 });
 
 export const COMMON_NAVIGATE_ENUM = Object.freeze({
-    BARCODE_SCANNER: "바코드 스캔"
+    BARCODE_SCANNER: "바코드 스캔",
+    HAMBERGER_MENU: "햄버거메뉴"
 });

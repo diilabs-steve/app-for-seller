@@ -7,23 +7,10 @@ import CustomContainer from '../common/util/customContainer';
 import DashBoard from '../common/util/dashboard';
 import ScanImg from "../../assets/main/scan.png";
 import Profile from "../../assets/main/profile.png";
-import Collect from "../../assets/main/collect.png";
-import IncomePo from "../../assets/main/income_po.png";
-import InvenInvest from "../../assets/main/inven_invest.png";
-import IncomeMove from "../../assets/main/inven_move.png";
-import LoanDeliv from "../../assets/main/loan_deliv.png";
-import Pallet from "../../assets/main/pallet.png";
-import ProductImg from "../../assets/main/product.png";
-import LocationImg from "../../assets/main/location.png";
-import PickingTrunkImg from "../../assets/main/picking_trunk.png";
-import OutgoingTrunkImg from "../../assets/main/outgoing_trunk.png";
-import IncomingTrunkImg from "../../assets/main/incoming_trunk.png";
-import PickingLoanImg from "../../assets/main/picking_loan.png";
-import { MAIN_NAVIGATE_ENUM } from '../../navigationVar';
+import Hamberger from "../../assets/main/hamberger.png";
+import { COMMON_NAVIGATE_ENUM, MAIN_NAVIGATE_ENUM } from '../../navigationVar';
 import Title from '../common/util/title';
 import ScanInput from '../common/scanInput';
-import { clearStorage } from '../../functions/storageFunc';
-import { HOST } from '../../envVars';
 
 const Presenter = (props) => {
 
@@ -51,8 +38,12 @@ const Presenter = (props) => {
         <>
             <ScrollView>
             <CustomContainer style={styles.background} />
+            <View style={{ position: "absolute", width: "100%", height: "30%", backgroundColor: "#3D3D5B" }} />
             <View style={{ padding: COMMON_PAGE_PADDING }}>
-                <View style={{ flexDirection: "row-reverse", marginTop: 50 }}>
+                <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: 50 }}>
+                    <HambergerBtn
+                        {...props}
+                    />
                     <UserInfoBtn
                         {...props}
                     />
@@ -60,10 +51,10 @@ const Presenter = (props) => {
 
                 <View style={{ paddingLeft: 23 }}>
                     <Image source={ScanImg} style={{ width: 58, height: 57.34, resizeMode: "stretch", marginVertical: 20 }} />
-                    <Title>
+                    <Title style={{ color: "white" }}>
                         바코드를 스캔하여
                     </Title>
-                    <Title style={{ marginTop: 5 }}>
+                    <Title style={{ marginTop: 5, color: "white" }}>
                         업무를 시작하세요
                     </Title>
                 </View>
@@ -73,7 +64,7 @@ const Presenter = (props) => {
                     state={barcode}
                     setState={setBarcode}
                     style={{ marginTop: 30 }} 
-                    placeholder="바코드 직접 입력"
+                    placeholder="제품명/상품명 직접 입력"
                     size="big" />
                 <NavigationButtons {...props} />
             </View>
@@ -160,6 +151,22 @@ const NavigationButtons = (props) => {
 }   
 
 
+const HambergerBtn = (props) => {
+
+    const {
+        navigation
+    } = props;
+
+    return (
+        <TouchableOpacity style={{  flexDirection: "row", alignItems: "center" }} onPress={() => {
+            // clearStorage();
+            // signOut()
+            navigation.navigate(COMMON_NAVIGATE_ENUM.HAMBERGER_MENU);
+        }}>
+            <Image source={Hamberger} style={styles.profileImg} />
+        </TouchableOpacity>
+    )
+}
 const UserInfoBtn = (props) => {
 
     const {
@@ -173,7 +180,7 @@ const UserInfoBtn = (props) => {
             navigation.navigate(MAIN_NAVIGATE_ENUM.USER_PROFILE);
         }}>
             <Image source={Profile} style={styles.profileImg} />
-            <Text style={{ fontSize: COMMON_FONT_SIZE, color: COMMON_COLOR_ENUM.DEEP_DARK_GRAY, marginLeft: 5 }}>
+            <Text style={{ fontSize: COMMON_FONT_SIZE, color: "white", marginLeft: 5 }}>
                 내정보
             </Text>
         </TouchableOpacity>
