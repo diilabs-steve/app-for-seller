@@ -1,14 +1,14 @@
 {
   "expo": {
-    "name": "app-for-seller",
-    "slug": "app-for-seller",
+    "name": "고인스톨 판매사",
+    "slug": "diilabs-seller",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "resizeMode": "cover",
+      "backgroundColor": "#1c1875"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -17,13 +17,29 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "kr.co.diilabs.seller",
+      "buildNumber": "3",
+      "infoPlist": {
+        "NSCameraUsageDescription": "제품 사진 촬영을 위해 카메라를 사용합니다",
+        "NSPhotoLibraryUsageDescription": "제품 사진을 불러오기 위해 앨범에 접근합니다.",
+        "NSMicrophoneUsageDescription": "제품 사진 촬영시 동영상 녹화를 선택할 경우 마이크를 사용합니다."
+      }
     },
     "android": {
+      "package": "kr.co.diilabs.seller",
+      "versionCode": 3,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
-      }
+        "backgroundColor": "#1c1875"
+      },
+      "permissions": [
+        "CAMERA",
+        "ACCESS_FINE_LOCATION",
+        "RECORD_AUDIO",
+        "READ_PHONE_STATE",
+        "READ_CONTACTS"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
