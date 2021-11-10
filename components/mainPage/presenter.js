@@ -38,7 +38,7 @@ const Presenter = (props) => {
         <>
             <ScrollView>
             <CustomContainer style={styles.background} />
-            <View style={{ position: "absolute", width: "100%", height: "30%", backgroundColor: "#3D3D5B" }} />
+            <View style={{ position: "absolute", width: "100%", height: 340, backgroundColor: "#3D3D5B" }} />
             <View style={{ padding: COMMON_PAGE_PADDING }}>
                 <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: 50 }}>
                     <HambergerBtn
@@ -69,14 +69,9 @@ const Presenter = (props) => {
                 <NavigationButtons {...props} />
             </View>
             <View style={{ backgroundColor: "#3D3D5B", padding: COMMON_PAGE_PADDING }}>
-
                 <Title style={{ color: "white", marginLeft: 10, marginTop: 28 }}>
-                    총 재고현황과
+                    대행료
                 </Title>
-                <Title style={{ color: "white", marginLeft: 10, marginTop: 5 }}>
-                    나의 작업량이에요
-                </Title>
-
                 <View style={{ marginVertical: 30 }}>
                     <DashBoard 
                         {...props} 
