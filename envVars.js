@@ -66,6 +66,7 @@ export const CODE_MASTER_GROUP = "/master/code/group";
  * WAREHOUSE 창고
  */
 export const WAREHOUSE_LIST = "/warehouse/list";
+export const WAREHOUSE_FILE_LIST = (tableName, tableSeq) => `/warehouse/file/list/${tableName}/${tableSeq}`;
 
 /**
  * PRODUCT 상품

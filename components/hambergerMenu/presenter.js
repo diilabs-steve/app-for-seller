@@ -7,6 +7,7 @@ import ScanImg from "../../assets/main/scan.png";
 import Arrow from "../../assets/hambergerMenu/arrow.png";
 
 import Title from '../common/util/title';
+import { COMMON_COLOR_ENUM } from '../common/enum/commonColorEnum';
 
 const Presenter = (props) => {
 
@@ -36,7 +37,7 @@ const Presenter = (props) => {
                     <Title>
                         (주) 하나로
                     </Title>
-                    <Title style={{ marginTop: 5, fontSize: COMMON_SMALL_FONT_SIZE }}>
+                    <Title style={{ marginTop: 10, fontSize: COMMON_SMALL_FONT_SIZE, fontWeight: "400", color: COMMON_COLOR_ENUM.DEEP_DARK_GRAY }}>
                         김기수님, 안녕하세요
                     </Title>
                 </View>

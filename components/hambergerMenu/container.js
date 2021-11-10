@@ -12,6 +12,7 @@ import ContectImg from "../../assets/hambergerMenu/contect.png";
 import LogoutImg from "../../assets/hambergerMenu/logout.png";
 import ProfileImg from "../../assets/hambergerMenu/profile.png";
 import NoticeImg from "../../assets/hambergerMenu/notice.png";
+import { MAIN_NAVIGATE_ENUM } from '../../navigationVar';
 
 
 
@@ -117,7 +118,7 @@ const Container = (props) => {
                 title: "제품조회",
                 image: ProductImg,
                 imgStyle: { width: 55.65, height: 59.54 },
-                onPress: () => navigation.navigate(MAIN_NAVIGATE_ENUM.PRODUCT_INFO)
+                onPress: () => navigation.navigate(MAIN_NAVIGATE_ENUM.PRODUCT_SEARCH)
             },
             {
                 title: "상품조회",

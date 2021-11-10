@@ -2,6 +2,7 @@ import React from "react";
 import { createStackNavigator } from '@react-navigation/stack';
 import { MAIN_NAVIGATE_ENUM } from "../navigationVar";
 import MainPage from "../components/mainPage";
+import ProductSearchPage from "../components/productSearchPage";
 
 
 const MainPageNavigations = (props) => {
@@ -25,6 +26,18 @@ const MainPageNavigations = (props) => {
         {
             name: MAIN_NAVIGATE_ENUM.MAIN,
             component: MainPage,
+            screenListeners: {
+                    state: (e) => {
+                    // Do something with the state
+                    console.log('state changed', e.data);
+                    },
+            },
+            initialParams: { ctx },
+            options: { headerShown: false }
+        },
+        {
+            name: MAIN_NAVIGATE_ENUM.PRODUCT_SEARCH,
+            component: ProductSearchPage,
             screenListeners: {
                     state: (e) => {
                     // Do something with the state
