@@ -13,6 +13,23 @@ const Container = (props) => {
     const { params = {} } = route;
     const { barcodeData = null } = params;
 
+
+    const OPTIONS = [
+        {
+            text: "바코드",
+            value: "barcode"
+        },
+        {
+            text: "제품명",
+            value: "model"
+        },
+        {
+            text: "SKU",
+            value: "sku"
+        },
+    ];
+
+    const [searchOption, setSearchOption] = React.useState(OPTIONS[0]);
     
     const [barcode, setBarcode] = React.useState("");
 
@@ -48,6 +65,9 @@ const Container = (props) => {
             alertMessage={alertMessage}
             barcode={barcode}
             setBarcode={setBarcode}
+            options={OPTIONS}
+            searchOption={searchOption}
+            setSearchOption={setSearchOption}
         />
     );
 };

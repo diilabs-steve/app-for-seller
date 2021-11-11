@@ -25,14 +25,16 @@ const Presenter = (props) => {
         btnStyle = {},
         scopeIconNone = false,
         onChangeText = () => {},
-        keyboardType
+        keyboardType,
+        inputWidth,
+        btnVisible = true
     } = props;
 
     return (
         <>
         <View style={[styles.container, style]}>
             {!scopeIconNone && <Image source={SearchImg} style={styles.searchImg} />}
-            <View style={[{ width: size === SIZE_ENUM.BIG ? "79%" : "82%", zIndex: 0 }]}>
+            <View style={[{ width: inputWidth ? inputWidth : size === SIZE_ENUM.BIG ? "79%" : "82%", zIndex: 0 }]}>
                 <TextInput
                     style={[styles.input, { height: size === SIZE_ENUM.BIG ? 80 : 60, paddingLeft: scopeIconNone ? 20 : 50 }, inputStyle]}
                     onChangeText={(nextText) => {
@@ -46,11 +48,12 @@ const Presenter = (props) => {
                 />
             </View>
             <View style={{ width: "18%", marginLeft: "2%", justifyContent: "space-between" }}>
+                {btnVisible &&
                 <CustomButton
                     btnStyle={[styles.scanBtn, { height: size === SIZE_ENUM.BIG ? 80 : 60, width: size === SIZE_ENUM.BIG ? 80 : 60}, btnStyle]}
                     title={<Image source={ScanImg} style={styles.scanImg} />}
                     onPress={handleBarcodeBtn}
-                />
+                />}
             </View>
         </View>
         </>
