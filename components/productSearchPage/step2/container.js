@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect } from 'react';
-import { HOST, MODEL_STOCK, WAREHOUSE_FILE_LIST } from '../../../envVars';
+import { HOST, MODEL, MODEL_STOCK, WAREHOUSE_FILE_LIST } from '../../../envVars';
 import { getStorage } from '../../../functions/storageFunc';
 import { STEP_NAVIGATE_ENUM } from '../../../navigationVar';
 import { fetchCodeMasterGroupData } from '../../common/function/restApi';
@@ -26,7 +26,8 @@ const Container = (props) => {
     const [productImg, setProductImg] = React.useState("");
     const [palletImg, setPalletImg] = React.useState("");
     const [modelGroup, setModelGroup] = React.useState("");
-    const [midGrpObj, setMidGrpObj] = React.useState({});
+    const [midGrpObj, setMidGrpObj] = React.useState({}); 
+    const [modelObj, setModelObj] = React.useState({});
 
     const modelInfo = [
         {
@@ -113,8 +114,20 @@ const Container = (props) => {
 
     }
 
+    const fetchModelData = async () => {
+        const HOST = await getStorage("host");
+        try {
+            const rs = await axios.get(HOST + MODEL + `/${modelData.modelSeq}`);
+            console.log('rs.data??', rs.data)
+            setModelObj(rs.data);
+        } catch (error) {
+            
+        }
+    }
+
     React.useEffect(() => {
         // demoImgSetter();
+        fetchModelData();
         modelGrpObjConverter();
         fetchModelImg()
         modelDataConverter();
@@ -201,6 +214,7 @@ const Container = (props) => {
             modelInfo={modelInfo}
             imgInfo={imgInfo}
             productProperty={productProperty}
+            modelObj={modelObj}
         />
     );
 };

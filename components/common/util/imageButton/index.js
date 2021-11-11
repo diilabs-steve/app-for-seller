@@ -10,6 +10,7 @@ import { imgUploadCall } from "../../../../functions/s3ImageUploadFunc";
 import CameraBtnImg from "../../../../assets/button/camera-btn.png"
 import { COMMON_BORDER_RADIUS, COMMON_BOX_SHADOW } from "../../enum/commonStyleEnum";
 
+
 const ACTION_TYPE_ENUM = Object.freeze({
   CAMERA: "camera",
   PHONE_ALBUM: "album"
@@ -35,6 +36,7 @@ const ImageButton = (props) => {
 
 
   const [modalVisible, setModalVisible] = useState(false);
+  const [imgModalVisible, setImgModalVisible] = useState(false);
 
 
 
@@ -105,6 +107,44 @@ const ImageButton = (props) => {
       </Modal>
     )
   }
+  const ImageModal = (props) => {
+    const {
+      state
+    } = props;
+    console.log('사진???',state)
+    return (
+      <Modal
+      animationType="fade"
+      transparent={true}
+      visible={imgModalVisible}
+      onRequestClose={() => {
+        // Alert.alert("Modal has been closed.");
+        setImgModalVisible(!imgModalVisible);
+      }}
+      >
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <View style={{ borderBottomColor: COMMON_COLOR_ENUM.LIGHT_GRAY , borderBottomWidth: 2, marginBottom: 35, paddingBottom: 35}}>
+              <Text style={styles.modalText}>사진</Text>
+            </View>
+            <TouchableOpacity onPress={() => setImgModalVisible(false)} style={{ position: "absolute", right: 20, top: 20 }}>
+              <Image source={CloseImg} style={{ width: 20, height: 20, resizeMode: "stretch" }} />
+            </TouchableOpacity>
+            <Image source={{
+              uri: state
+            }} style={{ width: "100%", height: 300, resizeMode: "stretch" }} />
+            {/* <ImageViewer imageUrls={[{
+              url: state,
+              width: 300,
+              height: 300
+            }]}/> */}
+
+          </View>
+        </View>
+        <View style={{ position: "absolute", zIndex: 90, opacity: 0.6, backgroundColor: "black", width: "100%", height: "100%" }}></View>
+      </Modal>
+    )
+  }
 
 
   const DisplayImage = (props) => {
@@ -115,19 +155,21 @@ const ImageButton = (props) => {
 
     return (
       <View style={{ height: 100, width: 100, overflow: "hidden", borderRadius: 8 }, imgStyle}>
-        {!displayMode &&
+        {!displayMode && !btnDisable &&
           <TouchableOpacity onPress={() => setState()} style={{ position: "absolute", right: 10, top: 10, zIndex: 90 }}>
           <Image source={CloseImg} style={{ width: 20, height: 20, resizeMode: "stretch" }} />
         </TouchableOpacity>}
-        <Image  
-            style={{ width: "100%", height: "100%", resizeMode: "stretch", zIndex:0 }}
-            source={{
-                uri: state,
-                headers: {
-                  Accept: '*/*'
-                }
-            }} 
-        />  
+        <TouchableOpacity onPress={() => setImgModalVisible(true)}>
+          <Image  
+              style={{ width: "100%", height: "100%", resizeMode: "stretch", zIndex:0 }}
+              source={{
+                  uri: state,
+                  headers: {
+                    Accept: '*/*'
+                  }
+              }} 
+          />  
+        </TouchableOpacity>
     </View>
     )
   }
@@ -135,6 +177,7 @@ const ImageButton = (props) => {
   return (
     <>
       <SelectionModal />
+      <ImageModal {...props} />
       <View style={[{ width: 100 }, style]}>
         {titlePosition === TITLE_POSITION_ENUM.TOP ?
         <Text style={styles.imgTitleStyle}>

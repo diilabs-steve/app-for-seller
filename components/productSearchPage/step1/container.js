@@ -21,7 +21,7 @@ const Container = (props) => {
         },
         {
             text: "제품명",
-            value: "model"
+            value: "modelName"
         },
         {
             text: "SKU",
@@ -40,7 +40,7 @@ const Container = (props) => {
         let params;
 
         if (searchOption.value === "barcode") params = `?barcode=${searchText.trim()}`;
-        if (searchOption.value === "model") params = `?model=${searchText}`;
+        if (searchOption.value === "modelName") params = `?modelName=${searchText}`;
         if (searchOption.value === "skuNumber") params = `?skuNumber=${searchText}`;
 
         const rs = await fetchModelInfo(params);
@@ -53,8 +53,8 @@ const Container = (props) => {
             // });
             setModelList(rs.data);
         } else {
-            setAlertVisible(true);
-            setAlertMessage("존재하지 않는 모델입니다.");
+            // setAlertVisible(true);
+            // setAlertMessage("존재하지 않는 모델입니다.");
         }
 
     }

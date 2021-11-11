@@ -8,7 +8,7 @@ import ProductinfoImg from "../../../assets/productinfo/productinfo.png";
 import { COMMON_COLOR_ENUM } from '../../common/enum/commonColorEnum';
 import AlertModal from '../../common/util/alertModal';
 import Dropdown from '../../common/util/dropdown';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import Label from '../../common/util/label';
 
 const REQUEST_COLOR = "#FF806F";
@@ -53,10 +53,10 @@ const SearchSection = (props) => {
     } = props;
 
     return (
-        <View style={{ flexDirection: "row" }}>
+        <View style={{ flexDirection: "row", padding: 10 }}>
             <Dropdown 
                 data={options} 
-                buttonStyle={{ width: "30%" }}
+                buttonStyle={{ width: "29%" }}
                 value={searchOption.value}
                 onSelect={(selectedItem) => {
                     setSearchOption(selectedItem);
@@ -66,8 +66,8 @@ const SearchSection = (props) => {
                 <ScanInput 
                     {...props}
                     placeholder="모델 바코드 직접 입력"
-                    btnStyle={{ elevation: 0, width: 48, height: 48, marginLeft: 5 }}
-                    inputStyle={{ elevation: 0, borderWidth: 1, borderColor: COMMON_COLOR_ENUM.GRAY, height: 48, marginLeft: 5 }}
+                    btnStyle={{ elevation: 0, width: 50, height: 50, marginLeft: 5 }}
+                    inputStyle={{ elevation: 0, borderWidth: 1, borderColor: COMMON_COLOR_ENUM.GRAY, height: 50, marginLeft: 5 }}
                     scopeIconNone={true}
                     inputWidth={searchOption.value === "barcode" ? "82%" : "100%"}
                     btnVisible={searchOption.value === "barcode"}
@@ -96,11 +96,13 @@ const ModelList = (props) => {
                 {`총 ${modelList.length}건`}
             </Text>
         </View>
-        <View>
-            {modelList.map(m => 
-                <ModelCard info={m} onCardPress={onCardPress} />
-            )}
-        </View>
+        <ScrollView>
+            <View style={{ paddingBottom: 100}}>
+                {modelList.map(m => 
+                    <ModelCard info={m} onCardPress={onCardPress} />
+                )}
+            </View>
+        </ScrollView>
         </>
     )
 }
@@ -132,7 +134,7 @@ const ModelCard = (props) => {
 
 const styles = StyleSheet.create({
     container: {
-        padding: COMMON_PAGE_PADDING,
+        // padding: COMMON_PAGE_PADDING,
         height: "100%"
     },
     background: {
@@ -148,10 +150,11 @@ const styles = StyleSheet.create({
     },
     cardStyle: {
         backgroundColor: "white",
-        width: "100%",
+        width: "95%",
         borderRadius: COMMON_BORDER_RADIUS,
         padding: 15,
         marginTop: 15,
+        marginHorizontal: 10,
         zIndex: 30,
         ...COMMON_BOX_SHADOW,
     },
