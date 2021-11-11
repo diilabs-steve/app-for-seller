@@ -59,6 +59,13 @@ const Container = (props) => {
 
     }
 
+    const onCardPress = (modelInfo) => {
+        navigation.navigate(STEP_NAVIGATE_ENUM.STEP2, {
+            barcodeData: modelInfo.barcode,
+            modelData: modelInfo
+        }); 
+    }
+
 
     return (
         <Presenter 
@@ -73,6 +80,7 @@ const Container = (props) => {
             searchOption={searchOption}
             setSearchOption={setSearchOption}
             modelList={modelList}
+            onCardPress={onCardPress}
         />
     );
 };

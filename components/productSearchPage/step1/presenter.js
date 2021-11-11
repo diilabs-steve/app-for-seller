@@ -85,9 +85,10 @@ const SearchSection = (props) => {
 const ModelList = (props) => {
 
     const {
-        modelList = []
+        modelList = [],
+        onCardPress
     } = props;
-
+    console.log(modelList)
     return (
         <>
         <View style={{ padding: 10, paddingTop: 20 }}>
@@ -96,23 +97,34 @@ const ModelList = (props) => {
             </Text>
         </View>
         <View>
-            <ModelCard />
+            {modelList.map(m => 
+                <ModelCard info={m} onCardPress={onCardPress} />
+            )}
         </View>
         </>
     )
 }
 
 const ModelCard = (props) => {
+
+    const {
+        info,
+        onCardPress
+    } = props;
+
     return (
-        <TouchableOpacity style={styles.cardStyle}>  
+        <TouchableOpacity style={styles.cardStyle} onPress={() => onCardPress(info)}>  
             <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <Label title={"요청"} style={{ widtsh: 70 }} backgroundColor={REQUEST_COLOR} />
-                <Text>
-                    {`R00002304230402 | 810081`}
+                <Label title={info.useFlag ? "승인" : "요청"} style={{ widtsh: 70 }} backgroundColor={info.useFlag ? APPROVE_COLOR : REQUEST_COLOR} />
+                <Text style={{ fontSize: COMMON_SMALL_FONT_SIZE, marginLeft: 15, color: COMMON_COLOR_ENUM.DEEP_DARK_GRAY }}>
+                    {`${info.barcode} | ${info.modelSeq}`}
                 </Text>
             </View>
-                <Text style={{ fontSize: 17, fontWeight: "600" }}>
-                    BRF-8030-body-Arcrticwhite
+                <Text style={{ fontSize: 19, fontWeight: "700", marginLeft: 17, marginVertical: 10 }}>
+                    {`${info.model}`}
+                </Text>
+                <Text style={{ fontSize: 17, fontWeight: "100", marginLeft: 17 }}>
+                    {`${info.modelName}`}
                 </Text>
         </TouchableOpacity>
     )
