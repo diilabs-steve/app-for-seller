@@ -13,7 +13,10 @@ const Presenter = (props) => {
         modelObj,
         modelInfo = [],
         imgInfo = [],
-        productProperty = []
+        productProperty = [],
+        largeGrpObj,
+        midGrpObj,
+        smallGrpObj
     } = props;
     return (
         <>
@@ -26,6 +29,11 @@ const Presenter = (props) => {
                     <Text style={{ fontSize: COMMON_SMALL_FONT_SIZE, marginTop: 10 }}>
                         {modelObj.modelName}
                     </Text>
+                    <View style={{ padding: 10, backgroundColor: "#F4F6F9", borderRadius: 30, width: 220, justifyContent: "center", marginTop: 20 }}>
+                        <Text style={{ textAlign: "center" }}>
+                            {`${largeGrpObj[modelObj.modelGroupLarge]} > ${midGrpObj[modelObj.modelGroupMedium]} > ${smallGrpObj[modelObj.modelGroupSmall]}`}
+                        </Text>
+                    </View>
                     <View style={{ padding: 10 }}>
                         {modelInfo.map((info = {}, idx) => 
                             <LeftTitleContent title={info.title} content={info.content} key={`m-info-${idx}`} />
@@ -40,6 +48,14 @@ const Presenter = (props) => {
                                 onPicture={info.onPicture}
                                 displayMode={info.displayMode}
                             />
+                        )}
+                    </View>
+                    <View style={{ padding: 10, marginTop: 60 }}>
+                        <Title>
+                            제품속성
+                        </Title>
+                        {productProperty.map((info = {}, idx) => 
+                            <LeftTitleContent title={info.title} content={info.content} key={`m-info-${idx}`} />
                         )}
                     </View>
                 </View>
