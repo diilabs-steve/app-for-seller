@@ -105,7 +105,7 @@ const BottomMenuItem = (props) => {
     } = props;
 
     return (
-        <TouchableOpacity style={[styles.bottomMenuItem, style]}>
+        <TouchableOpacity style={[styles.bottomMenuItem, style]} onPress={info.onPress}>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <Image source={info.image} style={[{ resizeMode: "stretch", marginRight: 10 }, info.imgStyle]} />
                 <Text>

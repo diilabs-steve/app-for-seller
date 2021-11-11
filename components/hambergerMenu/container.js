@@ -13,14 +13,18 @@ import LogoutImg from "../../assets/hambergerMenu/logout.png";
 import ProfileImg from "../../assets/hambergerMenu/profile.png";
 import NoticeImg from "../../assets/hambergerMenu/notice.png";
 import { MAIN_NAVIGATE_ENUM } from '../../navigationVar';
+import { clearStorage } from '../../functions/storageFunc';
 
 
 
 const Container = (props) => {
 
-    const {
-        navigation
-    } = props;
+    const { route = {}, navigation } = props;
+    const { params = {} } = route;
+    const { ctx } = params;
+
+    const { signOut } = React.useContext(ctx);
+
 
     const [barcode, setBarcode] = React.useState("");
     const [seqTypes, setSeqTypes] = React.useState({});
@@ -64,6 +68,12 @@ const Container = (props) => {
             console.log("seq types error", error)
         }
     }
+
+    const handleSignOut = () => {
+        clearStorage();
+        signOut();
+    }
+    
 
     const onBarcodeScanned = (barcodeData = "") => {
 
@@ -189,7 +199,7 @@ const Container = (props) => {
                 title: "로그아웃",
                 image: LogoutImg,
                 imgStyle: { width: 24.19, height: 16.55 },
-                onPress: () => navigation.navigate(MAIN_NAVIGATE_ENUM.INVENTORY_MOVEMENT)
+                onPress: () => handleSignOut()
             },
     ]
 

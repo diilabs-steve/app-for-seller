@@ -25,32 +25,36 @@ const Container = (props) => {
         },
         {
             text: "SKU",
-            value: "sku"
+            value: "skuNumber"
         },
     ];
 
     const [searchOption, setSearchOption] = React.useState(OPTIONS[0]);
-    
-    const [barcode, setBarcode] = React.useState("");
-
-
+    const [searchText, setSearchText] = React.useState("");
     const [alertVisible, setAlertVisible] = React.useState(false);
     const [alertMessage, setAlertMessage] = React.useState("");
+    const [modelList, setModelList] = React.useState([]);
 
-    const handleBarcodeScanned = async (barcode) => {
+    const handleBarcodeScanned = async (searchText) => {
+        console.log(searchText)
+        let params;
 
-        const rs = await fetchModelInfo(`?barcode=${barcode.trim()}`);
-        console.log("", rs.data)
+        if (searchOption.value === "barcode") params = `?barcode=${searchText.trim()}`;
+        if (searchOption.value === "model") params = `?model=${searchText}`;
+        if (searchOption.value === "skuNumber") params = `?skuNumber=${searchText}`;
+
+        const rs = await fetchModelInfo(params);
+        console.log(rs.data)
 
         if (rs.status) {
-            navigation.navigate(STEP_NAVIGATE_ENUM.STEP2, {
-                barcodeData: barcode,
-                modelData: rs.data[0]
-            });
+            // navigation.navigate(STEP_NAVIGATE_ENUM.STEP2, {
+            //     barcodeData: barcode,
+            //     modelData: rs.data[0]
+            // });
+            setModelList(rs.data);
         } else {
             setAlertVisible(true);
             setAlertMessage("존재하지 않는 모델입니다.");
-            
         }
 
     }
@@ -63,11 +67,12 @@ const Container = (props) => {
             alertVisible={alertVisible}
             setAlertVisible={setAlertVisible}
             alertMessage={alertMessage}
-            barcode={barcode}
-            setBarcode={setBarcode}
+            searchText={searchText}
+            setSearchText={setSearchText}
             options={OPTIONS}
             searchOption={searchOption}
             setSearchOption={setSearchOption}
+            modelList={modelList}
         />
     );
 };

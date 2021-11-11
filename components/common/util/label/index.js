@@ -9,11 +9,12 @@ const Label = (props) => {
         title = "", 
         content = "",
         subText = "",
-        style = {}
+        style = {},
+        backgroundColor
     } = props;
     return (
-        <View style={[styles.labelContent, style]}>
-            <Text style={[styles.text, { fontWeight: "700" }]}>
+        <View style={[styles.labelContent, { backgroundColor: backgroundColor ? backgroundColor : COMMON_COLOR_ENUM.LIGHT_BLUE }, style]}>
+            <Text style={[styles.text, { fontWeight: "500" }]}>
                 {title}
             </Text>
             <Text style={[styles.text, { fontWeight: "300", marginLeft: 3 }]}>
@@ -31,9 +32,12 @@ const styles = StyleSheet.create({
         backgroundColor: COMMON_COLOR_ENUM.LIGHT_BLUE, 
         paddingVertical: 5, 
         paddingHorizontal: 10, 
-        borderRadius: 20
+        borderRadius: 20,
+        justifyContent: "center",
+        // maxWidth: 100
     },
     text: {
-        fontSize: COMMON_SMALL_FONT_SIZE
+        fontSize: COMMON_SMALL_FONT_SIZE,
+        color: "white"
     }
 });
