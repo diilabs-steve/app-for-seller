@@ -1,7 +1,7 @@
 import React from 'react';
 import { Alert } from 'react-native';
 import { STEP_NAVIGATE_ENUM } from '../../../navigationVar';
-import { fetchModelInfo } from '../../common/function/restApi';
+import { fetchModelInfo, fetchModelStockInfo } from '../../common/function/restApi';
 import Presenter from './presenter';
 
 const Container = (props) => {
@@ -43,7 +43,7 @@ const Container = (props) => {
         if (searchOption.value === "modelName") params = `?modelName=${searchText}`;
         if (searchOption.value === "skuNumber") params = `?skuNumber=${searchText}`;
 
-        const rs = await fetchModelInfo(params);
+        const rs = await fetchModelStockInfo(params);
         console.log(rs.data)
 
         if (rs.status) {

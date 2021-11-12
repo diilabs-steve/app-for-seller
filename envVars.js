@@ -23,6 +23,7 @@ export const PARTNER_LIST = "/user/partner/list";
  */
 export const MODEL_LIST = "/warehouse/model/list";
 export const MODEL_STOCK = "/warehouse/model/stock";
+export const MODEL_STOCK_MODEL = "/warehouse/model/stock/model";
 export const MODEL = "/warehouse/model";
 
 /**

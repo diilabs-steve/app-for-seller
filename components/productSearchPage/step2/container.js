@@ -1,9 +1,10 @@
 import axios from 'axios';
 import React, { useEffect } from 'react';
-import { HOST, MODEL, MODEL_STOCK, WAREHOUSE_FILE_LIST } from '../../../envVars';
+import { HOST, MODEL, MODEL_STOCK, MODEL_STOCK_MODEL, WAREHOUSE_FILE_LIST } from '../../../envVars';
 import { getStorage } from '../../../functions/storageFunc';
 import { STEP_NAVIGATE_ENUM } from '../../../navigationVar';
 import { fetchCodeMasterGroupData } from '../../common/function/restApi';
+import SpinnerComponent from '../../common/util/spinner';
 import Presenter from './presenter';
 
 const Container = (props) => {
@@ -30,96 +31,57 @@ const Container = (props) => {
     const [largeGrpObj, setLargeGrpObj] = React.useState({}); 
     const [midGrpObj, setMidGrpObj] = React.useState({}); 
     const [smallGrpObj, setSmallGrpObj] = React.useState({}); 
+    const [palletTypeObj, setPalletTypeObj] = React.useState({}); 
     const [modelObj, setModelObj] = React.useState({});
+    const [modelStockObj, setModelStockObj] = React.useState({});
+    const [spinnerActive, setSpinnerActive] = React.useState(true);
 
     const modelInfo = [
         {
             title: "SKU",
-            content: modelData.model
-        },
-        {
-            title: "색상",
-            content: modelData.barcode
-        },
-        {
-            title: "가격",
-            content: modelData.barcode
+            content: `(내부) ${modelStockObj.modelStockSeq}\n(외부) ${modelStockObj.skuNumber}`
         },
         // {
-        //     title: "SKUID",
-        //     content: "2341232"
+        //     title: "색상",
+        //     content: modelData.barcode
         // },
+        {
+            title: "가격",
+            content: `${modelStockObj.purchasePrice}`
+        }
     ]
 
-    const demoImgSetter = () => {
-        switch (modelData.model) {
-            case "ZPC2003":
-                setBoxLabelImg("https://dp-image-s3.s3.ap-northeast-2.amazonaws.com/static/ZPC2003_box_label.png")
-                setProductImg("https://dp-image-s3.s3.ap-northeast-2.amazonaws.com/static/ZPC2003_product.png")
-                setPalletImg("https://dp-image-s3.s3.ap-northeast-2.amazonaws.com/static/ZPC2003_pallet.png")
-                break;
-            case "ZPC2012":
-                setBoxLabelImg("https://dp-image-s3.s3.ap-northeast-2.amazonaws.com/static/ZPC2012_box_label.png")
-                setProductImg("https://dp-image-s3.s3.ap-northeast-2.amazonaws.com/static/ZPC2012_product.png")
-                setPalletImg("https://dp-image-s3.s3.ap-northeast-2.amazonaws.com/static/ZPC2012_pallet.png")
-                break;
-        
-            default:
-                break;
-        }
+    const palletTypeConverter = async () => {
+        const codeData = await fetchCodeMasterGroupData("PALLET_TYPE", "object");
+
+        setPalletTypeObj(codeData.data || {})
+
     }
-
-    
-
-    const modelDataConverter = async () => {
-        const codeData = await fetchCodeMasterGroupData("GRP1", "object");
-
-        setModelGroup(codeData.data)
-        console.log("codeData", codeData.data)
-        // const idx = codeData.data.map(c => c.code).indexOf(modelData.modelGroupLarge);
-
-        // if (idx !== -1) {
-        // }
-        // modelData.modelGroupLarge
-    }
-
     const modelMidGrpObjConverter = async () => {
         const codeData = await fetchCodeMasterGroupData("MODEL_GRP_2", "object");
 
-        console.log('codeData', codeData.data)
         setMidGrpObj(codeData.data || {})
 
-        // modelData.modelGroupLarge
     }
     const modelLargeGrpObjConverter = async () => {
         const codeData = await fetchCodeMasterGroupData("MODEL_GRP_1", "object");
 
-        console.log('codeData', codeData.data)
         setLargeGrpObj(codeData.data || {})
-
-        // modelData.modelGroupLarge
     }
     const modelSmallGrpObjConverter = async () => {
         const codeData = await fetchCodeMasterGroupData("MODEL_GRP_3", "object");
 
-        console.log('codeData', codeData.data)
         setSmallGrpObj(codeData.data || {})
-
-        // modelData.modelGroupLarge
     }
     const modelDivisionObjConverter = async () => {
         const codeData = await fetchCodeMasterGroupData("MODEL_GRP_DIV", "object");
 
-        console.log('codeData', codeData.data)
         setModelDivisionObj(codeData.data || {})
-
-        // modelData.modelGroupLarge
     }
 
     const fetchModelImg = async () => {
         const HOST = await getStorage("host");
         const imgRs = await axios.get(HOST + WAREHOUSE_FILE_LIST("model", modelData.modelSeq));
-        // const rs = await axios.get(HOST + MODEL_STOCK + `?modelSeq=${modelData.modelSeq}`);
         console.log("imgrs==>", imgRs.data, HOST + WAREHOUSE_FILE_LIST("model", modelData.modelSeq))
         if (imgRs.data) {
             imgRs.data?.forEach((img, idx) => {
@@ -135,12 +97,6 @@ const Container = (props) => {
                 }
             })
         }
-        // if (rs.data && rs.data.length > 0) {
-
-        //     // const imgRs = await axios.get(`https://d.diilabs.co.kr/admin/v2/upload/modelDetail?seq=${rs.data[0].modelStockSeq}`);
-        //     console.log(imgRs.data)
-        // } 
-
 
 
     }
@@ -150,7 +106,25 @@ const Container = (props) => {
         try {
             const rs = await axios.get(HOST + MODEL + `/${modelData.modelSeq}`);
             console.log('rs.data??', rs.data)
+
             setModelObj(rs.data);
+            fetchModelStockData(rs.data?.modelSeq, rs.data?.brand);
+
+        } catch (error) {
+            
+        }
+    }
+    const fetchModelStockData = async (modelSeq, partnerSeq) => {
+        const HOST = await getStorage("host");
+        try {
+            const rs = await axios.get(HOST + MODEL_STOCK_MODEL + `?modelSeq=${modelSeq}&modelStockSeq=${modelData.modelStockSeq}`);
+            console.log('rs.data.stock??', rs.data)
+            
+            if (rs.data?.length) {
+                const stockInfo = rs.data[0];
+                setModelStockObj(stockInfo);
+            }
+
         } catch (error) {
             
         }
@@ -163,8 +137,11 @@ const Container = (props) => {
         modelMidGrpObjConverter();
         modelSmallGrpObjConverter();
         modelDivisionObjConverter();
-        fetchModelImg()
-        modelDataConverter();
+        palletTypeConverter();
+        fetchModelImg();
+        setTimeout(() => {
+            setSpinnerActive(false);
+        }, 2000);
     }, [])
 
     const imgInfo = [
@@ -197,12 +174,12 @@ const Container = (props) => {
         }
     ]
 
-    const boxWidth = modelData.boxWidth || 0;
-    const boxHeight = modelData.boxHeight || 0;
-    const boxDepth = modelData.boxDepth || 0;
-    const modelWidth = modelData.modelWidth || 0;
-    const modelHeight = modelData.modelHeight || 0;
-    const modelDepth = modelData.modelDepth || 0;
+    const boxWidth = modelObj.boxWidth || 0;
+    const boxHeight = modelObj.boxHeight || 0;
+    const boxDepth = modelObj.boxDepth || 0;
+    const modelWidth = modelObj.modelWidth || 0;
+    const modelHeight = modelObj.modelHeight || 0;
+    const modelDepth = modelObj.modelDepth || 0;
 
     const productProperty = [
         {
@@ -215,24 +192,28 @@ const Container = (props) => {
         },
         {
             title: "무게",
-            content: `${modelData.modelWeight}`
+            content: `${modelObj.modelWeight}`
         },
         {
             title: "용량/인치",
-            content: `${modelDivisionObj[modelData.modelDivision]}`
+            content: `${modelDivisionObj[modelObj.modelDivision]}`
         },
         {
             title: "팔레트 적재수량",
-            content: `${modelData.palletCapacity}`
+            content: `${modelObj.palletCapacity}`
         },
         {
             title: "팔레트 사이즈",
-            content: ""
+            content: `${palletTypeObj[modelObj.palletType]}`
         }
     ]
 
 
     return (
+        <>
+        {spinnerActive ? 
+        <SpinnerComponent/>
+        :
         <Presenter 
             {...props}
             handleNextStep={handleNextStep}
@@ -244,6 +225,8 @@ const Container = (props) => {
             midGrpObj={midGrpObj}
             smallGrpObj={smallGrpObj}
         />
+        }
+        </>
     );
 };
 

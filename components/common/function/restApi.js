@@ -1,5 +1,5 @@
 import axios from "axios";
-import { CODE_MASTER_GROUP, HOST, LINEHAUL, LINEHAUL_BEFORE_LOADING, LINEHAUL_DETAIL, LINEHAUL_LOADING, LINEHAUL_LOADING_UNLOAD, LINEHAUL_PICKING, LOAN_PICK_LIST, LOCATION_IN, LOCATION_LIST, MODEL_LIST, PARTNER_LIST, PRODUCT_LIST, PURCHASE, PURCHASE_CONFIRM, PURCHASE_LIST, PURCHASE_LOCATION, PURCHASE_RECEIVE, SIGN_IN, TOKEN_REFRESH, USER_INFO, WAREHOUSE_LIST } from "../../../envVars";
+import { CODE_MASTER_GROUP, HOST, LINEHAUL, LINEHAUL_BEFORE_LOADING, LINEHAUL_DETAIL, LINEHAUL_LOADING, LINEHAUL_LOADING_UNLOAD, LINEHAUL_PICKING, LOAN_PICK_LIST, LOCATION_IN, LOCATION_LIST, MODEL_LIST, MODEL_STOCK, PARTNER_LIST, PRODUCT_LIST, PURCHASE, PURCHASE_CONFIRM, PURCHASE_LIST, PURCHASE_LOCATION, PURCHASE_RECEIVE, SIGN_IN, TOKEN_REFRESH, USER_INFO, WAREHOUSE_LIST } from "../../../envVars";
 import { getStorage, getUserToken, setUserToken } from "../../../functions/storageFunc";
 import { getRefreshToken, setRefreshToken } from "./storageFunc";
 
@@ -240,6 +240,30 @@ export const fetchModelInfo = async (params = "") => {
     const HOST = await getStorage("host");
     try {
         const rs = await axios.get(HOST + MODEL_LIST + params);
+
+        const result = rs.data || [];
+
+        if (result.length > 0){
+            return {
+                data: result,
+                status: true
+            }
+        } else {
+            return {
+                status: false
+            };
+        }
+        
+    } catch (error) {
+        return {
+                status: false
+            };
+    }
+}
+export const fetchModelStockInfo = async (params = "") => {
+    const HOST = await getStorage("host");
+    try {
+        const rs = await axios.get(HOST + MODEL_STOCK + params);
 
         const result = rs.data || [];
 
