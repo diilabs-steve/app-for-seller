@@ -1,10 +1,10 @@
 import React from 'react';
 import Container from './container';
 
-const ProductSearchPage = (props) => {
+const ModelInfo = (props) => {
     return (
        <Container {...props} />
     );
 };
 
-export default ProductSearchPage;
+export default ModelInfo;

@@ -1,10 +1,10 @@
 import React from 'react';
 import Container from './container';
 
-const ProductInfo = (props) => {
+const ModelScanInput = (props) => {
     return (
        <Container {...props} />
     );
 };
 
-export default ProductInfo;
+export default ModelScanInput;

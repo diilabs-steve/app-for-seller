@@ -3,8 +3,8 @@ import { Text } from "react-native";
 import { STEP_NAVIGATE_ENUM } from '../../navigationVar';
 import { createStackNavigator } from '@react-navigation/stack';
 import { navigationOptions } from '../common/commonVar/navigationOption';
-import ProductInfo from './step2';
-import ProductScanInput from './step1';
+import ModelInfo from './step2';
+import ModelScanInput from './step1';
 
 
 const Presenter = () => {
@@ -21,8 +21,8 @@ const Presenter = () => {
     return (
         <>
         <Stack.Navigator>
-            <Stack.Screen name={STEP_NAVIGATE_ENUM.STEP1} component={ProductScanInput} options={Object.assign({ headerTitle: "제품조회" }, navigationOptions)} />
-            <Stack.Screen name={STEP_NAVIGATE_ENUM.STEP2} component={ProductInfo} options={Object.assign({ headerTitle: "제품조회 상세" }, navigationOptions)} />
+            <Stack.Screen name={STEP_NAVIGATE_ENUM.STEP1} component={ModelScanInput} options={Object.assign({ headerTitle: "제품조회" }, navigationOptions)} />
+            <Stack.Screen name={STEP_NAVIGATE_ENUM.STEP2} component={ModelInfo} options={Object.assign({ headerTitle: "제품조회 상세" }, navigationOptions)} />
             {/* <Stack.Screen name={STEP_NAVIGATE_ENUM.STEP2} component={Step2} options={options} />
             <Stack.Screen name={STEP_NAVIGATE_ENUM.STEP3} component={Step3} options={options} />
             <Stack.Screen name={STEP_NAVIGATE_ENUM.STEP4} component={Step4} options={options} />
