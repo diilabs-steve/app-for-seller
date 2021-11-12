@@ -1,9 +1,9 @@
 import axios from 'axios';
 import React, { useEffect } from 'react';
-import { HOST, MODEL, MODEL_STOCK, MODEL_STOCK_MODEL, WAREHOUSE_FILE_LIST } from '../../../envVars';
+import { HOST, INFRA, MODEL, MODEL_STOCK, MODEL_STOCK_MODEL, PARTNER_LIST, WAREHOUSE_FILE_LIST } from '../../../envVars';
 import { getStorage } from '../../../functions/storageFunc';
 import { STEP_NAVIGATE_ENUM } from '../../../navigationVar';
-import { fetchCodeMasterGroupData } from '../../common/function/restApi';
+import { fetchCodeMasterGroupData, fetchProductDetail, restApiObjectConverter } from '../../common/function/restApi';
 import SpinnerComponent from '../../common/util/spinner';
 import Presenter from './presenter';
 
@@ -15,7 +15,7 @@ const Container = (props) => {
     } = props;
 
     const { params = {} } = route;
-    const { modelData = {} } = params;
+    const { modelData = {}, productInfo = {} } = params;
 
     console.log("model데이터==>>", modelData)
 
@@ -32,51 +32,56 @@ const Container = (props) => {
     const [midGrpObj, setMidGrpObj] = React.useState({}); 
     const [smallGrpObj, setSmallGrpObj] = React.useState({}); 
     const [palletTypeObj, setPalletTypeObj] = React.useState({}); 
-    const [modelObj, setModelObj] = React.useState({});
+    const [productObj, setProductObj] = React.useState({});
     const [modelStockObj, setModelStockObj] = React.useState({});
+    const [patnerObj, setPartnerObj] = React.useState({});
+    const [infraObj, setInfraObj] = React.useState({});
+    const [modelGroupObj, setModelGroupObj] = React.useState({});
+    const [serviceTypeObj, setServiceTypeObj] = React.useState({});
     const [spinnerActive, setSpinnerActive] = React.useState(true);
 
     const modelInfo = [
         {
-            title: "SKU",
-            content: `(내부) ${modelStockObj.modelStockSeq}\n(외부) ${modelStockObj.skuNumber}`
+            title: "판매사",
+            content: `${patnerObj[productObj.partnerSeq]}`
         },
         // {
-        //     title: "색상",
-        //     content: modelData.barcode
+        //     title: "브랜드",
+        //     content: productObj.brand
         // },
         {
-            title: "가격",
-            content: `${modelStockObj.purchasePrice}`
-        }
+            title: "인프라",
+            content: `${infraObj[productObj.infraSeq]}`
+        },
+        {
+            title: "제품군",
+            content: modelGroupObj[productObj.modelGroup]
+        },
+        {
+            title: "서비스타입",
+            content: `${serviceTypeObj[productObj.serviceType]}`
+        },
+        {
+            title: "소요시간",
+            content: `${productObj.installDuration}분`
+        },
     ]
 
-    const palletTypeConverter = async () => {
-        const codeData = await fetchCodeMasterGroupData("PALLET_TYPE", "object");
-
-        setPalletTypeObj(codeData.data || {})
-
-    }
-    const modelMidGrpObjConverter = async () => {
-        const codeData = await fetchCodeMasterGroupData("MODEL_GRP_2", "object");
-
-        setMidGrpObj(codeData.data || {})
-
-    }
-    const modelLargeGrpObjConverter = async () => {
-        const codeData = await fetchCodeMasterGroupData("MODEL_GRP_1", "object");
-
-        setLargeGrpObj(codeData.data || {})
-    }
-    const modelSmallGrpObjConverter = async () => {
-        const codeData = await fetchCodeMasterGroupData("MODEL_GRP_3", "object");
-
-        setSmallGrpObj(codeData.data || {})
-    }
-    const modelDivisionObjConverter = async () => {
-        const codeData = await fetchCodeMasterGroupData("MODEL_GRP_DIV", "object");
-
-        setModelDivisionObj(codeData.data || {})
+    const fetchTypeData = async () => {
+        const partner = await restApiObjectConverter(PARTNER_LIST, {
+            key: "partnerSeq",
+            value: "partnerName"
+        })
+        setPartnerObj(partner.data);
+        const infra = await restApiObjectConverter(INFRA, {
+            key: "infraSeq",
+            value: "infraName"
+        })
+        setInfraObj(infra.data);
+        const modelGroup = await fetchCodeMasterGroupData("MODEL_GROUP", "object");
+        setModelGroupObj(modelGroup.data);
+        const serviceType = await fetchCodeMasterGroupData("SERVICE_TYPE", "object");
+        setServiceTypeObj(serviceType.data);
     }
 
     const fetchModelImg = async () => {
@@ -104,10 +109,10 @@ const Container = (props) => {
     const fetchModelData = async () => {
         const HOST = await getStorage("host");
         try {
-            const rs = await axios.get(HOST + MODEL + `/${modelData.modelSeq}`);
+            const rs = await fetchProductDetail(productInfo.productSeq);
             console.log('rs.data??', rs.data)
 
-            setModelObj(rs.data);
+            setProductObj(rs.data);
             fetchModelStockData(rs.data?.modelSeq, rs.data?.brand);
 
         } catch (error) {
@@ -131,13 +136,8 @@ const Container = (props) => {
     }
 
     React.useEffect(() => {
-        // demoImgSetter();
+        fetchTypeData();
         fetchModelData();
-        modelLargeGrpObjConverter();
-        modelMidGrpObjConverter();
-        modelSmallGrpObjConverter();
-        modelDivisionObjConverter();
-        palletTypeConverter();
         fetchModelImg();
         setTimeout(() => {
             setSpinnerActive(false);
@@ -174,12 +174,12 @@ const Container = (props) => {
         }
     ]
 
-    const boxWidth = modelObj.boxWidth || 0;
-    const boxHeight = modelObj.boxHeight || 0;
-    const boxDepth = modelObj.boxDepth || 0;
-    const modelWidth = modelObj.modelWidth || 0;
-    const modelHeight = modelObj.modelHeight || 0;
-    const modelDepth = modelObj.modelDepth || 0;
+    const boxWidth = productObj.boxWidth || 0;
+    const boxHeight = productObj.boxHeight || 0;
+    const boxDepth = productObj.boxDepth || 0;
+    const modelWidth = productObj.modelWidth || 0;
+    const modelHeight = productObj.modelHeight || 0;
+    const modelDepth = productObj.modelDepth || 0;
 
     const productProperty = [
         {
@@ -192,19 +192,19 @@ const Container = (props) => {
         },
         {
             title: "무게",
-            content: `${modelObj.modelWeight}`
+            content: `${productObj.modelWeight}`
         },
         {
             title: "용량/인치",
-            content: `${modelDivisionObj[modelObj.modelDivision]}`
+            content: `${modelDivisionObj[productObj.modelDivision]}`
         },
         {
             title: "팔레트 적재수량",
-            content: `${modelObj.palletCapacity}`
+            content: `${productObj.palletCapacity}`
         },
         {
             title: "팔레트 사이즈",
-            content: `${palletTypeObj[modelObj.palletType]}`
+            content: `${palletTypeObj[productObj.palletType]}`
         }
     ]
 
@@ -220,10 +220,11 @@ const Container = (props) => {
             modelInfo={modelInfo}
             imgInfo={imgInfo}
             productProperty={productProperty}
-            modelObj={modelObj}
+            modelObj={productObj}
             largeGrpObj={largeGrpObj}
             midGrpObj={midGrpObj}
             smallGrpObj={smallGrpObj}
+            productObj={productObj}
         />
         }
         </>

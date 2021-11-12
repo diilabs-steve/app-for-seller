@@ -86,7 +86,8 @@ const ModelList = (props) => {
 
     const {
         modelList = [],
-        onCardPress
+        onCardPress,
+        infraObj
     } = props;
     console.log(modelList)
     return (
@@ -99,7 +100,7 @@ const ModelList = (props) => {
         <ScrollView>
             <View style={{ paddingBottom: 100}}>
                 {modelList.map(m => 
-                    <ModelCard info={m} onCardPress={onCardPress} />
+                    <ModelCard infraObj={infraObj} info={m} onCardPress={onCardPress} />
                 )}
             </View>
         </ScrollView>
@@ -111,7 +112,8 @@ const ModelCard = (props) => {
 
     const {
         info,
-        onCardPress
+        onCardPress,
+        infraObj
     } = props;
 
     return (
@@ -119,7 +121,7 @@ const ModelCard = (props) => {
             <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <Label title={info.confirmFlag ? "승인" : "요청"} style={{ widtsh: 70 }} backgroundColor={info.confirmFlag ? APPROVE_COLOR : REQUEST_COLOR} />
                 <Text style={{ fontSize: COMMON_SMALL_FONT_SIZE, marginLeft: 15, color: COMMON_COLOR_ENUM.DEEP_DARK_GRAY, fontWeight: "bold" }}>
-                    {`${info.productSeq}  인프라 ${info.infraSeq}`}
+                    {`${info.productSeq}  인프라 ${infraObj[info.infraSeq]}`}
                 </Text>
             </View>
                 {/* <Text style={{ fontSize: 19, fontWeight: "700", marginLeft: 17, marginVertical: 10 }}>

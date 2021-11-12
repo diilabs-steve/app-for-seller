@@ -33,6 +33,7 @@ const Container = (props) => {
     const [searchText, setSearchText] = React.useState("");
     const [alertVisible, setAlertVisible] = React.useState(false);
     const [alertMessage, setAlertMessage] = React.useState("");
+    const [infraObj, setInfraObj] = React.useState({});
     const [modelList, setModelList] = React.useState([]);
 
     const handleBarcodeScanned = async (searchText) => {
@@ -61,14 +62,21 @@ const Container = (props) => {
 
     const fetchInfraConverter = async () => {
         const rs = await fetchInfraList();
-
+        const obj = {};
+        rs.data?.forEach(d => {
+            Object.assign(obj, {
+                [d.infraSeq]: d.infraName
+            });
+        })
+        setInfraObj(obj);
         console.log('infra??', rs.data)
     }
 
-    const onCardPress = (modelInfo) => {
+    const onCardPress = (productInfo) => {
+        console.log('productInfo', productInfo)
         navigation.navigate(STEP_NAVIGATE_ENUM.STEP2, {
-            barcodeData: modelInfo.barcode,
-            modelData: modelInfo
+            barcodeData: productInfo.barcode,
+            productInfo
         }); 
     }
 
@@ -90,6 +98,7 @@ const Container = (props) => {
             setSearchOption={setSearchOption}
             modelList={modelList}
             onCardPress={onCardPress}
+            infraObj={infraObj}
         />
     );
 };

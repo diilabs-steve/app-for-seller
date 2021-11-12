@@ -111,7 +111,7 @@ const ImageButton = (props) => {
     const {
       state
     } = props;
-    console.log('사진???',state)
+    // console.log('사진???',state)
     return (
       <Modal
       animationType="fade"
@@ -133,12 +133,6 @@ const ImageButton = (props) => {
             <Image source={{
               uri: state
             }} style={{ width: "100%", height: 300, resizeMode: "stretch" }} />
-            {/* <ImageViewer imageUrls={[{
-              url: state,
-              width: 300,
-              height: 300
-            }]}/> */}
-
           </View>
         </View>
         <View style={{ position: "absolute", zIndex: 90, opacity: 0.6, backgroundColor: "black", width: "100%", height: "100%" }}></View>

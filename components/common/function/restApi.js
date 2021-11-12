@@ -1,5 +1,5 @@
 import axios from "axios";
-import { CODE_MASTER_GROUP, HOST, INFRA, LINEHAUL, LINEHAUL_BEFORE_LOADING, LINEHAUL_DETAIL, LINEHAUL_LOADING, LINEHAUL_LOADING_UNLOAD, LINEHAUL_PICKING, LOAN_PICK_LIST, LOCATION_IN, LOCATION_LIST, MODEL_LIST, MODEL_STOCK, PARTNER_LIST, PRODUCT_LIST, PURCHASE, PURCHASE_CONFIRM, PURCHASE_LIST, PURCHASE_LOCATION, PURCHASE_RECEIVE, SIGN_IN, TOKEN_REFRESH, USER_INFO, WAREHOUSE_LIST } from "../../../envVars";
+import { CODE_MASTER_GROUP, HOST, INFRA, LINEHAUL, LINEHAUL_BEFORE_LOADING, LINEHAUL_DETAIL, LINEHAUL_LOADING, LINEHAUL_LOADING_UNLOAD, LINEHAUL_PICKING, LOAN_PICK_LIST, LOCATION_IN, LOCATION_LIST, MODEL_LIST, MODEL_STOCK, PARTNER_LIST, PRODUCT, PRODUCT_LIST, PURCHASE, PURCHASE_CONFIRM, PURCHASE_LIST, PURCHASE_LOCATION, PURCHASE_RECEIVE, SIGN_IN, TOKEN_REFRESH, USER_INFO, WAREHOUSE_LIST } from "../../../envVars";
 import { getStorage, getUserToken, setUserToken } from "../../../functions/storageFunc";
 import { getRefreshToken, setRefreshToken } from "./storageFunc";
 
@@ -695,4 +695,59 @@ export const fetchProductList = async (params = "") => {
                 status: false
             };
     }
+}
+export const fetchProductDetail = async (productSeq) => {
+    const HOST = await getStorage("host");
+    try {
+        const rs = await axios.get(HOST + PRODUCT + "/" + productSeq);
+
+        const result = rs.data || {};
+
+            return {
+                data: result,
+                status: true
+            }
+        
+    } catch (error) {
+        console.log("product detail fetch erroe=>", error)
+      
+        return {
+                status: false
+            };
+    }
+}
+
+/**
+ * REST API OBJ
+ */
+export const restApiObjectConverter = async (api, settingObj = { key: "", value: "" }) => {
+
+    const HOST = await getStorage("host");
+    const token = await getUserToken();
+
+    try {
+        const rs = await axios.get(HOST + api, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        const obj = {};
+        rs.data?.forEach(d => {
+            Object.assign(obj, {
+                [d[settingObj.key]]: d[settingObj.value],
+                [d[settingObj.value]]: d[settingObj.key]
+            })
+        })
+        console.log('????restr',rs.data, obj)
+        return {
+            data: obj,
+            status: true
+        }
+        
+    } catch (error) {
+        return {
+                status: false
+        };
+    }
+
 }

@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, ScrollView, View, Text } from "react-native";
+import { COMMON_COLOR_ENUM } from '../../common/enum/commonColorEnum';
 import { COMMON_PAGE_PADDING, COMMON_SMALL_FONT_SIZE } from '../../common/enum/commonStyleEnum';
 import ScanInput from '../../common/scanInput';
 import CustomContainer from '../../common/util/customContainer';
@@ -16,7 +17,8 @@ const Presenter = (props) => {
         productProperty = [],
         largeGrpObj,
         midGrpObj,
-        smallGrpObj
+        smallGrpObj,
+        productObj
     } = props;
     return (
         <>
@@ -24,16 +26,11 @@ const Presenter = (props) => {
             <CustomContainer style={styles.container}>
                 <View style={{height: "100%", paddingBottom: 500}}>
                     <Title>
-                        {modelObj.model}
+                        {productObj.productName}
                     </Title>
                     <Text style={{ fontSize: COMMON_SMALL_FONT_SIZE, marginTop: 10 }}>
-                        {modelObj.modelName}
+                        {productObj.productSeq}
                     </Text>
-                    <View style={{ padding: 10, backgroundColor: "#F4F6F9", borderRadius: 30, width: 220, justifyContent: "center", marginTop: 20 }}>
-                        <Text style={{ textAlign: "center" }}>
-                            {`${largeGrpObj[modelObj.modelGroupLarge]} > ${midGrpObj[modelObj.modelGroupMedium]} > ${smallGrpObj[modelObj.modelGroupSmall]}`}
-                        </Text>
-                    </View>
                     <View style={{ padding: 10 }}>
                         {modelInfo.map((info = {}, idx) => 
                             <LeftTitleContent title={info.title} content={info.content} key={`m-info-${idx}`} />
@@ -52,10 +49,10 @@ const Presenter = (props) => {
                     </View>
                     <View style={{ padding: 10, marginTop: 60 }}>
                         <Title>
-                            제품속성
+                            구성항목
                         </Title>
-                        {productProperty.map((info = {}, idx) => 
-                            <LeftTitleContent title={info.title} content={info.content} key={`m-info-${idx}`} />
+                        {productObj?.productModels?.map((info = {}, idx) => 
+                            <ModelItem info={info} style={{}} />
                         )}
                     </View>
                 </View>
@@ -66,10 +63,28 @@ const Presenter = (props) => {
     );
 };
 
+const ModelItem = (props) => {
+
+    const {
+        style = {}
+    } = props;
+
+    return (
+        <View style={[styles.modelItem, style]}>
+            <Text>dd</Text>
+        </View>
+    )
+}
+
 export default Presenter;
 
 const styles = StyleSheet.create({
     container: {
         padding: COMMON_PAGE_PADDING
+    },
+    modelItem: {
+        borderBottomWidth: 1, 
+        borderBottomColor: COMMON_COLOR_ENUM.GRAY, 
+        paddingVertical: 15
     }
 });
