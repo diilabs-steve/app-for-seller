@@ -73,13 +73,22 @@ const Container = (props) => {
             value: "partnerName"
         })
         setPartnerObj(partner.data);
-        const infra = await restApiObjectConverter(INFRA, {
+
+
+
+    }
+    const fetchInfra = async () => {
+               const infra = await restApiObjectConverter(INFRA, {
             key: "infraSeq",
             value: "infraName"
         })
-        setInfraObj(infra.data);
+        setInfraObj(infra.data); 
+    }
+    const fetchModelGroup = async () => {
         const modelGroup = await fetchCodeMasterGroupData("MODEL_GROUP", "object");
         setModelGroupObj(modelGroup.data);
+    }
+    const fetchServiceType = async () => {
         const serviceType = await fetchCodeMasterGroupData("SERVICE_TYPE", "object");
         setServiceTypeObj(serviceType.data);
     }
@@ -139,9 +148,12 @@ const Container = (props) => {
         fetchTypeData();
         fetchModelData();
         fetchModelImg();
+        fetchInfra();
+        fetchModelGroup();
+        fetchServiceType();
         setTimeout(() => {
             setSpinnerActive(false);
-        }, 2000);
+        }, 3000);
     }, [])
 
     const imgInfo = [

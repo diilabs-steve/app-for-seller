@@ -141,7 +141,7 @@ const Container = (props) => {
         fetchModelImg();
         setTimeout(() => {
             setSpinnerActive(false);
-        }, 2000);
+        }, 3000);
     }, [])
 
     const imgInfo = [

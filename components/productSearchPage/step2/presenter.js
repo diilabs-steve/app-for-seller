@@ -70,8 +70,25 @@ const ModelItem = (props) => {
     } = props;
 
     return (
+        <>
         <View style={[styles.modelItem, style]}>
-            <Text>dd</Text>
+            <MasterMark />
+            <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
+                <Text style={{ fontSize: COMMON_SMALL_FONT_SIZE }}>N-0003_caramel</Text>
+                <Text style={{ marginTop: 10, fontSize: COMMON_SMALL_FONT_SIZE, color: COMMON_COLOR_ENUM.DARK_GRAY }}>81000143</Text>
+            </View>
+            <Text>바디프랜드 카카오블랙</Text>
+        </View>
+        </>
+    )
+}
+
+const MasterMark = () => {
+    return (
+        <View style={styles.marker}>
+            <Text style={{ color: "white", fontWeight: "bold" }}>
+                M
+            </Text>
         </View>
     )
 }
@@ -83,8 +100,20 @@ const styles = StyleSheet.create({
         padding: COMMON_PAGE_PADDING
     },
     modelItem: {
+        position: "relative",
         borderBottomWidth: 1, 
         borderBottomColor: COMMON_COLOR_ENUM.GRAY, 
-        paddingVertical: 15
+        paddingVertical: 15, 
+        paddingHorizontal: 30
+    },
+    marker: { 
+        position: "absolute", 
+        top: 17, 
+        backgroundColor: "#5759E3", 
+        width: 25, 
+        height: 25, 
+        justifyContent: "center", 
+        alignItems: "center", 
+        borderRadius: 40 
     }
 });
