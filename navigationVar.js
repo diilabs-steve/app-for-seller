@@ -8,7 +8,8 @@ export const AUTH_NAVIGATE_ENUM = Object.freeze({
 
 export const MAIN_NAVIGATE_ENUM = Object.freeze({
     MAIN: "홈",
-    PRODUCT_SEARCH: "제품조회",
+    MODEL_SEARCH: "제품조회",
+    PRODUCT_SEARCH: "상품조회",
     GOODS_INFO: "상품정보",
     INVENTORY_INVESTIGATE: "재고조사",
     INVENTORY_MOVEMENT: "재고이동",

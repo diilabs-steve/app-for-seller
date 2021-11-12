@@ -128,13 +128,13 @@ const Container = (props) => {
                 title: "제품조회",
                 image: ProductImg,
                 imgStyle: { width: 55.65, height: 59.54 },
-                onPress: () => navigation.navigate(MAIN_NAVIGATE_ENUM.PRODUCT_SEARCH)
+                onPress: () => navigation.navigate(MAIN_NAVIGATE_ENUM.MODEL_SEARCH)
             },
             {
                 title: "상품조회",
                 image: GoodsImg,
                 imgStyle: { width: 58.49, height: 58.84 },
-                onPress: () => navigation.navigate(MAIN_NAVIGATE_ENUM.GOODS_INFO)
+                onPress: () => navigation.navigate(MAIN_NAVIGATE_ENUM.PRODUCT_SEARCH)
             },
             {
                 title: "대행료",

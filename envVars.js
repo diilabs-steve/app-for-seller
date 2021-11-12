@@ -19,6 +19,11 @@ export const TOKEN_REFRESH = "/user/sign/refresh";
 export const PARTNER_LIST = "/user/partner/list";
 
 /**
+ * INFRA 인프라
+ */
+export const INFRA = "/master/infra";
+
+/**
  * MODEL 모델
  */
 export const MODEL_LIST = "/warehouse/model/list";
