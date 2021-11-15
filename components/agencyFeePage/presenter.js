@@ -5,6 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { navigationOptions } from '../common/commonVar/navigationOption';
 import AgencyFee from './step1';
 import AgencyFeeSearch from './step2';
+import AgencyFeeDetail from './step3';
 
 
 const Presenter = () => {
@@ -23,6 +24,7 @@ const Presenter = () => {
         <Stack.Navigator>
             <Stack.Screen name={STEP_NAVIGATE_ENUM.STEP1} component={AgencyFee} options={Object.assign({ headerTitle: "대행료" }, navigationOptions)} />
             <Stack.Screen name={STEP_NAVIGATE_ENUM.STEP2} component={AgencyFeeSearch} options={Object.assign({ headerTitle: "대행료" }, navigationOptions)} />
+            <Stack.Screen name={STEP_NAVIGATE_ENUM.STEP3} component={AgencyFeeDetail} options={Object.assign({ headerTitle: "대행료" }, navigationOptions)} />
             {/* <Stack.Screen name={STEP_NAVIGATE_ENUM.STEP2} component={ProductInfo} options={Object.assign({ headerTitle: "상품조회 상세" }, navigationOptions)} /> */}
             {/* <Stack.Screen name={STEP_NAVIGATE_ENUM.STEP2} component={Step2} options={options} />
             <Stack.Screen name={STEP_NAVIGATE_ENUM.STEP3} component={Step3} options={options} />

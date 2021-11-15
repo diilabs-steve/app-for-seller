@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
         // maxWidth: 100
     },
     text: {
-        fontSize: COMMON_SMALL_FONT_SIZE,
+        fontSize: 14,
         color: "white"
     }
 });

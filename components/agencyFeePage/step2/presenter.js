@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, Image, ScrollView, TouchableOpacity, ImageBackground, StyleSheet } from "react-native";
+import { STEP_NAVIGATE_ENUM } from "../../../navigationVar";
 import { COMMON_COLOR_ENUM } from "../../common/enum/commonColorEnum";
 import { COMMON_PAGE_PADDING } from "../../common/enum/commonStyleEnum";
 import CustomButton from "../../common/util/customButton";
@@ -26,6 +27,7 @@ const Presenter = (props) => {
         <View style={{ padding: COMMON_PAGE_PADDING }}>
           <CustomButton
             title="검색하기"
+            onPress={() => navigation.navigate(STEP_NAVIGATE_ENUM.STEP3)}
           />
           <View>
             <Text style={styles.notice}>
@@ -41,5 +43,5 @@ const Presenter = (props) => {
 export default Presenter;
 
 const styles = StyleSheet.create({
-  notice: { textAlign: "center", backgroundColor: COMMON_COLOR_ENUM.LIGHT_GRAY, padding: 20, borderRadius: 10, marginTop: 20 }
+  notice: { textAlign: "center", backgroundColor: COMMON_COLOR_ENUM.LIGHT_GRAY, padding: 20, borderRadius: 10, marginTop: 40 }
 })
