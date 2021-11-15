@@ -21,8 +21,8 @@ const Presenter = () => {
     return (
         <>
         <Stack.Navigator>
-            <Stack.Screen name={STEP_NAVIGATE_ENUM.STEP1} component={ProductScanInput} options={Object.assign({ headerTitle: "상품조회" }, navigationOptions)} />
-            <Stack.Screen name={STEP_NAVIGATE_ENUM.STEP2} component={ProductInfo} options={Object.assign({ headerTitle: "상품조회 상세" }, navigationOptions)} />
+            <Stack.Screen name={STEP_NAVIGATE_ENUM.STEP1} component={ProductScanInput} options={Object.assign({ headerTitle: "상품정보" }, navigationOptions)} />
+            <Stack.Screen name={STEP_NAVIGATE_ENUM.STEP2} component={ProductInfo} options={Object.assign({ headerTitle: "상품정보 상세" }, navigationOptions)} />
             {/* <Stack.Screen name={STEP_NAVIGATE_ENUM.STEP2} component={Step2} options={options} />
             <Stack.Screen name={STEP_NAVIGATE_ENUM.STEP3} component={Step3} options={options} />
             <Stack.Screen name={STEP_NAVIGATE_ENUM.STEP4} component={Step4} options={options} />

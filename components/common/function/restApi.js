@@ -717,6 +717,7 @@ export const fetchProductDetail = async (productSeq) => {
     }
 }
 
+
 /**
  * REST API OBJ
  */

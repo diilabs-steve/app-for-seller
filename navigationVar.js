@@ -10,6 +10,7 @@ export const MAIN_NAVIGATE_ENUM = Object.freeze({
     MAIN: "홈",
     MODEL_SEARCH: "제품조회",
     PRODUCT_SEARCH: "상품조회",
+    PURCHASE_ORDER_SEARCH: "발주조회",
     AGENCY_FEE: "대행료",
     USER_PROFILE: "내정보"
 });

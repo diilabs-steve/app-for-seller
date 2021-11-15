@@ -146,7 +146,7 @@ const Container = (props) => {
                 title: "발주정보",
                 image: PurchaseOrderImg,
                 imgStyle: { width: 67.32, height: 58.48 },
-                onPress: () => navigation.navigate(MAIN_NAVIGATE_ENUM.INVENTORY_MOVEMENT)
+                onPress: () => navigation.navigate(MAIN_NAVIGATE_ENUM.PURCHASE_ORDER_SEARCH)
             },
         ],
         row2: [
