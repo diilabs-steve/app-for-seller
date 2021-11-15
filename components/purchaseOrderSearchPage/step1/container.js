@@ -18,7 +18,7 @@ const Container = (props) => {
     const OPTIONS = [
         {
             text: "발주번호",
-            value: "barcode"
+            value: "purchaseSeq"
         },
         {
             text: "발주일",
@@ -42,7 +42,7 @@ const Container = (props) => {
         console.log(searchText)
         let params;
 
-        if (searchOption.value === "barcode") params = `?barcode=${searchText.trim()}`;
+        if (searchOption.value === "purchaseSeq") params = `?purchaseSeq=${searchText.trim()}`;
         if (searchOption.value === "modelName") params = `?modelName=${searchText}`;
         if (searchOption.value === "skuNumber") params = `?skuNumber=${searchText}`;
 

@@ -69,8 +69,8 @@ const SearchSection = (props) => {
                     btnStyle={{ elevation: 0, width: 50, height: 50, marginLeft: 5 }}
                     inputStyle={{ elevation: 0, borderWidth: 1, borderColor: COMMON_COLOR_ENUM.GRAY, height: 50, marginLeft: 5 }}
                     scopeIconNone={true}
-                    inputWidth={searchOption.value === "barcode" ? "82%" : "100%"}
-                    btnVisible={searchOption.value === "barcode"}
+                    inputWidth={searchOption.value === "purchaseSeq" ? "82%" : "100%"}
+                    btnVisible={searchOption.value === "purchaseSeq"}
                     onPress={() => handleBarcodeScanned(searchText)}
                     onBarcodeScanned={handleBarcodeScanned} 
                     state={searchText}
@@ -126,7 +126,7 @@ const PoCard = (props) => {
                 </Title>
                 <View>
                     <Text style={{ fontSize: COMMON_FONT_SIZE }}>
-                        {`${partnerObj[info.partnerSeq]} • ${centerObj[info.centerCode]}`}
+                        {`${partnerObj?.[info.partnerSeq]} • ${centerObj?.[info.centerCode]}`}
                     </Text>
                 </View>
             </View>
@@ -149,8 +149,8 @@ const PoCard = (props) => {
                 </View>
             </View>
             {info?.details?.map(detail =>     
-                <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: 15 }}>
-                    <Title>
+                <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: 15, borderBottomWidth: 1, borderBottomColor: COMMON_COLOR_ENUM.LIGHT_GRAY }}>
+                    <Title style={{ fontSize: COMMON_FONT_SIZE }}>
                         {detail.model}
                     </Title>
                     <View style={{ flexDirection: "row", alignItems: "center" }}>
