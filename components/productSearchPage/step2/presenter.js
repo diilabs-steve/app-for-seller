@@ -18,7 +18,8 @@ const Presenter = (props) => {
         largeGrpObj,
         midGrpObj,
         smallGrpObj,
-        productObj
+        productObj,
+        modelListObj
     } = props;
     return (
         <>
@@ -52,7 +53,7 @@ const Presenter = (props) => {
                             구성항목
                         </Title>
                         {productObj?.productModels?.map((info = {}, idx) => 
-                            <ModelItem info={info} style={{}} />
+                            <ModelItem modelListObj={modelListObj} info={info} style={{}} />
                         )}
                     </View>
                 </View>
@@ -66,18 +67,22 @@ const Presenter = (props) => {
 const ModelItem = (props) => {
 
     const {
-        style = {}
+        style = {},
+        info = {},
+        modelListObj = {},
     } = props;
+
+    console.log('info=>', info, modelListObj)
 
     return (
         <>
         <View style={[styles.modelItem, style]}>
-            <MasterMark />
-            <View style={{ justifyContent: "space-between", flexDirection: "row" }}>
-                <Text style={{ fontSize: COMMON_SMALL_FONT_SIZE }}>N-0003_caramel</Text>
-                <Text style={{ marginTop: 10, fontSize: COMMON_SMALL_FONT_SIZE, color: COMMON_COLOR_ENUM.DARK_GRAY }}>81000143</Text>
+            {info.masterFlag && <MasterMark />}
+            <View style={{ justifyContent: "space-between", flexDirection: "row", marginBottom: 10 }}>
+                <Text style={{ fontSize: COMMON_SMALL_FONT_SIZE }}> {info.model}</Text>
+                <Text style={{ fontSize: COMMON_SMALL_FONT_SIZE, color: COMMON_COLOR_ENUM.DARK_GRAY }}>{info.modelSeq}</Text>
             </View>
-            <Text>바디프랜드 카카오블랙</Text>
+            <Text>{modelListObj[info.modelSeq]}</Text>
         </View>
         </>
     )

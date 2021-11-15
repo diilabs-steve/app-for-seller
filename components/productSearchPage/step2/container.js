@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect } from 'react';
-import { HOST, INFRA, MODEL, MODEL_STOCK, MODEL_STOCK_MODEL, PARTNER_LIST, WAREHOUSE_FILE_LIST } from '../../../envVars';
+import { HOST, INFRA, MODEL, MODEL_LIST, MODEL_STOCK, MODEL_STOCK_MODEL, PARTNER_LIST, WAREHOUSE_FILE_LIST } from '../../../envVars';
 import { getStorage } from '../../../functions/storageFunc';
 import { STEP_NAVIGATE_ENUM } from '../../../navigationVar';
 import { fetchCodeMasterGroupData, fetchProductDetail, restApiObjectConverter } from '../../common/function/restApi';
@@ -39,6 +39,8 @@ const Container = (props) => {
     const [modelGroupObj, setModelGroupObj] = React.useState({});
     const [serviceTypeObj, setServiceTypeObj] = React.useState({});
     const [spinnerActive, setSpinnerActive] = React.useState(true);
+    const [modelListObj, setModelListObj] = React.useState({});
+    const [masterImg, setMasterImg] = React.useState({});
 
     const modelInfo = [
         {
@@ -93,10 +95,10 @@ const Container = (props) => {
         setServiceTypeObj(serviceType.data);
     }
 
-    const fetchModelImg = async () => {
+    const fetchModelImg = async (modelSeq) => {
         const HOST = await getStorage("host");
-        const imgRs = await axios.get(HOST + WAREHOUSE_FILE_LIST("model", modelData.modelSeq));
-        console.log("imgrs==>", imgRs.data, HOST + WAREHOUSE_FILE_LIST("model", modelData.modelSeq))
+        const imgRs = await axios.get(HOST + WAREHOUSE_FILE_LIST("model", modelSeq));
+        console.log("imgrs==>", imgRs.data, HOST + WAREHOUSE_FILE_LIST("model", modelSeq))
         if (imgRs.data) {
             imgRs.data?.forEach((img, idx) => {
                 console.log("img?????", img)
@@ -120,10 +122,15 @@ const Container = (props) => {
         try {
             const rs = await fetchProductDetail(productInfo.productSeq);
             console.log('rs.data??', rs.data)
-
+            let masterModel = {};
+            rs.data?.productModels?.forEach(pm => {
+                if (pm.masterFlag) {
+                    masterModel = pm;
+                }
+            })
             setProductObj(rs.data);
             fetchModelStockData(rs.data?.modelSeq, rs.data?.brand);
-
+            fetchModelImg(masterModel.modelSeq);
         } catch (error) {
             
         }
@@ -132,8 +139,9 @@ const Container = (props) => {
         const HOST = await getStorage("host");
         try {
             const rs = await axios.get(HOST + MODEL_STOCK_MODEL + `?modelSeq=${modelSeq}&modelStockSeq=${modelData.modelStockSeq}`);
-            console.log('rs.data.stock??', rs.data)
-            
+            // console.log('rs.data.stock??', rs.data)
+            // rs.data
+            // fetchModelImg
             if (rs.data?.length) {
                 const stockInfo = rs.data[0];
                 setModelStockObj(stockInfo);
@@ -144,16 +152,28 @@ const Container = (props) => {
         }
     }
 
+    const fetchModels = async () => {
+        const rs = await restApiObjectConverter(MODEL_LIST, {
+            key: "modelSeq",
+            value: "modelName"
+        })
+        // console.log('modelobj', rs.data)
+
+        setModelListObj(rs.data);
+    }
+
     React.useEffect(() => {
         fetchTypeData();
         fetchModelData();
-        fetchModelImg();
+        // fetchModelImg();
         fetchInfra();
         fetchModelGroup();
         fetchServiceType();
+        fetchModels();
         setTimeout(() => {
             setSpinnerActive(false);
         }, 3000);
+
     }, [])
 
     const imgInfo = [
@@ -237,6 +257,7 @@ const Container = (props) => {
             midGrpObj={midGrpObj}
             smallGrpObj={smallGrpObj}
             productObj={productObj}
+            modelListObj={modelListObj}
         />
         }
         </>
