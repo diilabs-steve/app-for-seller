@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, Image, ScrollView, TouchableOpacity, ImageBackground, StyleSheet } from "react-native";
+import { STEP_NAVIGATE_ENUM } from "../../../navigationVar";
 import { COMMON_COLOR_ENUM } from "../../common/enum/commonColorEnum";
 import { COMMON_PAGE_PADDING, COMMON_SMALL_FONT_SIZE } from "../../common/enum/commonStyleEnum";
 import CustomButton from "../../common/util/customButton";
@@ -10,14 +11,7 @@ import Title from "../../common/util/title";
 
 const Presenter = (props) => {
 
-  const {
-    searchInfo = [],
-    date,
-    setDate,
-    selectDate,
-    navigation,
-    exportModalVisible,
-    setExportModalVisible } = props;
+  const { navigation } = props;
 
   return (
     <>
@@ -28,6 +22,7 @@ const Presenter = (props) => {
         <View style={{ padding: COMMON_PAGE_PADDING }}>
           <CustomButton
             title="검색하기"
+            onPress={() => navigation.navigate(STEP_NAVIGATE_ENUM.STEP2)}
           />
           <View>
             <Title style={{ marginVertical: 20, marginLeft: 10 }}>
@@ -52,6 +47,7 @@ const Presenter = (props) => {
                 </Title>
               </View>
             </View>
+            <Table {...props} />
           </View>
         </View>
       </CustomContainer>
@@ -60,6 +56,14 @@ const Presenter = (props) => {
 }
 
 export default Presenter;
+
+const Table = (props) => {
+  return (
+    <View>
+
+    </View>
+  )
+}
 
 const styles = StyleSheet.create({
   notice: { textAlign: "center", backgroundColor: COMMON_COLOR_ENUM.LIGHT_GRAY, padding: 20, borderRadius: 10, marginTop: 40 }
