@@ -1,7 +1,8 @@
 import React from 'react';
 import { Alert } from 'react-native';
+import { PARTNER_LIST, WAREHOUSE_LIST } from '../../../envVars';
 import { STEP_NAVIGATE_ENUM } from '../../../navigationVar';
-import { fetchModelInfo, fetchModelStockInfo, fetchPoList } from '../../common/function/restApi';
+import { restApiObjectConverter, fetchModelStockInfo, fetchPoList, fetchPoDetail } from '../../common/function/restApi';
 import Presenter from './presenter';
 
 const Container = (props) => {
@@ -34,6 +35,8 @@ const Container = (props) => {
     const [alertVisible, setAlertVisible] = React.useState(false);
     const [alertMessage, setAlertMessage] = React.useState("");
     const [poList, setPoList] = React.useState([]);
+    const [partnerObj, setPartnerObj] = React.useState({});
+    const [centerObj, setCenterObj] = React.useState({});
 
     const handleBarcodeScanned = async (searchText) => {
         console.log(searchText)
@@ -51,7 +54,20 @@ const Container = (props) => {
             //     barcodeData: barcode,
             //     modelData: rs.data[0]
             // });
-            setPoList(rs.data);
+            const promiseArr = await rs.data?.map(async po => {
+                const detailRs = await fetchPoDetail(po.purchaseSeq);
+
+                return detailRs.data;
+            })
+
+            const promiseResult = await Promise.all(promiseArr);
+            console.log('promiseArr', promiseResult)
+
+
+        
+
+
+            setPoList(promiseResult);
         } else {
             // setAlertVisible(true);
             // setAlertMessage("존재하지 않는 모델입니다.");
@@ -65,6 +81,28 @@ const Container = (props) => {
             modelData: modelInfo
         }); 
     }
+
+    const fetchPartnerObj = async () => {
+        const rs = await restApiObjectConverter(PARTNER_LIST, {
+            key: "partnerSeq",
+            value: "partnerName"
+        });
+
+        setPartnerObj(rs.data)
+    }
+    const fetchCenterObj = async () => {
+        const rs = await restApiObjectConverter(WAREHOUSE_LIST, {
+            key: "centerCode",
+            value: "centerName"
+        });
+
+        setCenterObj(rs.data)
+    }
+
+    React.useEffect(() => {
+        fetchPartnerObj();
+        fetchCenterObj();
+    }, [])
 
 
     return (
@@ -81,6 +119,8 @@ const Container = (props) => {
             setSearchOption={setSearchOption}
             poList={poList}
             onCardPress={onCardPress}
+            partnerObj={partnerObj}
+            centerObj={centerObj}
         />
     );
 };

@@ -9,10 +9,10 @@ import { COMMON_COLOR_ENUM } from '../../common/enum/commonColorEnum';
 import AlertModal from '../../common/util/alertModal';
 import Dropdown from '../../common/util/dropdown';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
-import Label from '../../common/util/label';
+// import Label from '../../common/util/label';
 
-const REQUEST_COLOR = "#FF806F";
-const APPROVE_COLOR = "#A0DD1D";
+// const REQUEST_COLOR = "#FF806F";
+// const APPROVE_COLOR = "#A0DD1D";
 
 
 const Presenter = (props) => {
@@ -99,7 +99,7 @@ const PoList = (props) => {
         <ScrollView>
             <View style={{ paddingBottom: 100}}>
                 {poList.map(m => 
-                    <PoCard info={m} onCardPress={onCardPress} />
+                    <PoCard {...props} info={m} onCardPress={onCardPress} />
                 )}
             </View>
         </ScrollView>
@@ -111,18 +111,22 @@ const PoCard = (props) => {
 
     const {
         info,
-        onCardPress
+        onCardPress,
+        partnerObj,
+        centerObj
     } = props;
+
+    console.log('info===>', info)
 
     return (
         <View style={styles.cardStyle}>  
             <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: 15 }}>
                 <Title>
-                    3100000137
+                    {info.purchaseSeq}
                 </Title>
                 <View>
                     <Text style={{ fontSize: COMMON_FONT_SIZE }}>
-                        {`오늘의집 • 남사FC`}
+                        {`${partnerObj[info.partnerSeq]} • ${centerObj[info.centerCode]}`}
                     </Text>
                 </View>
             </View>
@@ -132,42 +136,44 @@ const PoCard = (props) => {
                         {`발주일`}
                     </Text>
                     <Text style={{ textAlign: "center", fontSize: COMMON_SMALL_FONT_SIZE }}>
-                        {`2021-09-22`}
+                        {`${info.purchaseDate && info.purchaseDate?.split(" ")?.[0]}`}
                     </Text>
                 </View>
                 <View style={{ flexDirection: "row-reverse", width: "54%"}}>
                     <Text style={{ textAlign: "center", fontSize: COMMON_SMALL_FONT_SIZE }}>
-                        {`2021-09-22`}
+                        {`${info.promiseDatetime && info.promiseDatetime?.split(" ")?.[0]}`}
                     </Text>
                     <Text style={styles.poTitle}>
                         {`입고예정일`}
                     </Text>
                 </View>
             </View>
-            <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: 15 }}>
-                <Title>
-                    ZPC2032
-                </Title>
-                <View style={{ flexDirection: "row", alignItems: "center" }}>
-                    <View style={{ width: 55 }}>
-                        <Text style={{ fontSize: COMMON_FONT_SIZE, textAlign: "center" }}>
-                            발주
-                        </Text>
-                        <Text style={{ fontSize: COMMON_FONT_SIZE, textAlign: "center", fontWeight: "bold" }}>
-                            50
-                        </Text>
-                    </View>
-                    <View style={{ borderWidth: .5, height: 25, borderColor: COMMON_COLOR_ENUM.GRAY }} />
-                    <View style={{ width: 55 }}>
-                        <Text style={{ fontSize: COMMON_FONT_SIZE, textAlign: "center", color: COMMON_COLOR_ENUM.MIDDLE_BLUE }}>
-                            입고
-                        </Text>
-                        <Text style={{ fontSize: COMMON_FONT_SIZE, textAlign: "center", color: COMMON_COLOR_ENUM.MIDDLE_BLUE, fontWeight: "bold" }}>
-                            349
-                        </Text>
+            {info?.details?.map(detail =>     
+                <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", padding: 15 }}>
+                    <Title>
+                        {detail.model}
+                    </Title>
+                    <View style={{ flexDirection: "row", alignItems: "center" }}>
+                        <View style={{ width: 55 }}>
+                            <Text style={{ fontSize: COMMON_FONT_SIZE, textAlign: "center" }}>
+                                발주
+                            </Text>
+                            <Text style={{ fontSize: COMMON_FONT_SIZE, textAlign: "center", fontWeight: "bold" }}>
+                                {`${detail.purchaseQuantity}`}
+                            </Text>
+                        </View>
+                        <View style={{ borderWidth: .5, height: 25, borderColor: COMMON_COLOR_ENUM.GRAY }} />
+                        <View style={{ width: 55 }}>
+                            <Text style={{ fontSize: COMMON_FONT_SIZE, textAlign: "center", color: COMMON_COLOR_ENUM.MIDDLE_BLUE }}>
+                                입고
+                            </Text>
+                            <Text style={{ fontSize: COMMON_FONT_SIZE, textAlign: "center", color: COMMON_COLOR_ENUM.MIDDLE_BLUE, fontWeight: "bold" }}>
+                                {`${detail.confirmQuantity}`}
+                            </Text>
+                        </View>
                     </View>
                 </View>
-            </View>
+            )}
         </View>
     )
 }
