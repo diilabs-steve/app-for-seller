@@ -63,7 +63,7 @@ const LabelKittenCalendar = (props) => {
         </View>
         <View style={{ width: contentWidth }}>
           <Button
-            style={{ backgroundColor: "#f4f5f7", justifyContent: "flex-start", borderColor: "white", height: 45, borderRadius: 8 }}
+            style={{ backgroundColor: "#f4f5f7", width: "81%", justifyContent: "flex-start", borderColor: "white", height: 45, borderRadius: 8 }}
             onPress={() => dateRef.current.onPress()}
             children={() =>
               <Text>

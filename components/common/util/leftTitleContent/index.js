@@ -5,15 +5,15 @@ import { COMMON_FONT_SIZE, COMMON_SMALL_FONT_SIZE } from "../../enum/commonStyle
 
 const LeftTitleContent = (props) => {
 
-    const { title, content, contentStyle, titleStyle, containerStyle } = props;
+    const { title, content, contentStyle, titleStyle, containerStyle, justContent } = props;
 
     
     return (
         <View style={[styles.container, containerStyle]}>
-                <Text style={[styles.defaultTitle, styles.defaultTxt, titleStyle]}>
+                <Text style={[styles.defaultTitle, { width: justContent ? "0%" : "40%" }, styles.defaultTxt, titleStyle]}>
                     {title}
                 </Text>
-            <View style={[styles.defaultContent, contentStyle]}>
+            <View style={[styles.defaultContent, { width: justContent ? "100%" : "60%" }, contentStyle]}>
                 {typeof content === "string" ?
                     <Text style={[styles.defaultTxt, { fontWeight: "400" }]}>
                         {content}

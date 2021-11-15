@@ -13,6 +13,9 @@ import Icon from "react-native-vector-icons/Ionicons";
 import CustomContainer from "../../common/util/customContainer";
 import LabelKittenCalendar from "../../common/util/labelKittenCalendar/labelKittenCalendar";
 import { formatConvert } from "../../../functions/numFunc";
+import CustomButton from "../../common/util/customButton";
+import { COMMON_PAGE_PADDING } from "../../common/enum/commonStyleEnum";
+import { STEP_NAVIGATE_ENUM } from "../../../navigationVar";
 
 const Presenter = (props) => {
 
@@ -83,7 +86,7 @@ const Presenter = (props) => {
     const { title, count, divider, style, symbol = false } = props;
 
     return (
-      <View style={[{ width: "50%", borderRightWidth: divider && 1, borderRightColor: divider && COMMON_COLOR_ENUM.GRAY }, style]}>
+      <View style={[{ width: "50%", borderRightWidth: divider && 1, borderRightColor: divider && COMMON_COLOR_ENUM.LIGHT_GRAY }, style]}>
         <Text style={[commonStyles.defaultTxt, { textAlign: "center", color: count >= 0 ? COMMON_COLOR_ENUM.PRIMARY : "red", fontSize: 18, marginBottom: 5 }]}>
           {`${(!symbol && count >= 0) ? `+${formatConvert(count)}` : count < 0 ? `${formatConvert(count)}` : formatConvert(count)}`}
         </Text>
@@ -99,7 +102,7 @@ const Presenter = (props) => {
     const { title, count, countSign, divider, symbol = false } = props;
 
     return (
-      <View style={{ width: "33.3%", borderRightWidth: divider && 1, borderRightColor: divider && COMMON_COLOR_ENUM.GRAY }}>
+      <View style={{ width: "33.3%", borderRightWidth: divider && 1, borderRightColor: divider && COMMON_COLOR_ENUM.LIGHT_GRAY }}>
         <Text style={[commonStyles.defaultTxt, { textAlign: "center", fontWeight: "500", color: COMMON_COLOR_ENUM.DARK_GRAY, marginBottom: 10 }]}>
           {title}
         </Text>
@@ -115,18 +118,10 @@ const Presenter = (props) => {
     const { title, count, total, divider } = props;
 
     return (
-      <View style={{ width: "33.3%", borderRightWidth: divider && 1, borderRightColor: divider && COMMON_COLOR_ENUM.GRAY }}>
+      <View style={{ width: "50%", borderRightWidth: divider && 1, borderRightColor: divider && COMMON_COLOR_ENUM.LIGHT_GRAY, marginBottom: 10 }}>
         <Text style={[commonStyles.defaultTxt, { textAlign: "center", fontWeight: "500", color: COMMON_COLOR_ENUM.DARK_GRAY, marginBottom: 10 }]}>
           {title}
         </Text>
-        <View style={{ flexDirection: "row", justifyContent: "center" }}>
-          <Text style={[commonStyles.defaultTxt, { textAlign: "center", fontSize: 18, marginBottom: 5 }]}>
-            {formatConvert(count)}
-          </Text>
-          <Text style={[commonStyles.defaultTxt, { textAlign: "center", fontSize: 14, fontWeight: "400", marginTop: 4 }]}>
-            건
-          </Text>
-        </View>
         <View style={{ flexDirection: "row", justifyContent: "center" }}>
           <Text style={[commonStyles.defaultTxt, { textAlign: "center", fontSize: 18, marginBottom: 5 }]}>
             {`${formatConvert(total)}`}
@@ -135,6 +130,15 @@ const Presenter = (props) => {
             천원
           </Text>
         </View>
+        <View style={{ flexDirection: "row", justifyContent: "center" }}>
+          <Text style={[commonStyles.defaultTxt, { textAlign: "center", fontSize: 14, marginBottom: 5 }]}>
+            {}
+          </Text>
+          <Text style={[commonStyles.defaultTxt, { textAlign: "center", fontSize: 15, fontWeight: "100", marginTop: 4, color: COMMON_COLOR_ENUM.DARK_GRAY }]}>
+            {`${formatConvert(count)}건`}
+          </Text>
+        </View>
+
       </View>
     )
   }
@@ -162,13 +166,13 @@ const Presenter = (props) => {
       divider: true
     },
     {
-      title: "전월",
+      title: "전월총액",
       count: (lastMonthFee) ? ((lastMonthFee) / 1000) | 0 : 0,
       divider: true,
       symbol: true
     },
     {
-      title: "전월대비",
+      title: "전월비",
       count: (totalFee - lastMonthFee) ? ((totalFee - lastMonthFee) / 1000) | 0 : 0,
       countSign: true
     }
@@ -182,16 +186,22 @@ const Presenter = (props) => {
       divider: true
     },
     {
-      title: "교환/회수",
+      title: "교환",
       count: this_month.exchange_collect_count,
-      total: this_month.exchange_collect_fee ? (this_month.exchange_collect_fee / 1000) | 0 : 0,
-      divider: true
+      total: this_month.exchange_collect_fee ? (this_month.exchange_collect_fee / 1000) | 0 : 0
     },
     {
-      title: "취소/재방문",
+      title: "회수 (불량/반납)",
+      count: this_month.cancel_revisit_count,
+      total: this_month.cancel_revisit_fee ? (this_month.cancel_revisit_fee / 1000) | 0 : 0,
+      divider: true
+
+    },
+    {
+      title: "접수 (회수/재방문)",
       count: this_month.cancel_revisit_count,
       total: this_month.cancel_revisit_fee ? (this_month.cancel_revisit_fee / 1000) | 0 : 0
-    }
+    },
   ]
   return (
     <>
@@ -206,7 +216,7 @@ const Presenter = (props) => {
             labelWidth="25%"
             contentWidth="74%"
           />
-          <View style={{ marginHorizontal: 20, borderWidth: 1, borderRadius: 20, padding: 10, borderColor: COMMON_COLOR_ENUM.GRAY, marginTop: 10 }}>
+          {/* <View style={{ marginHorizontal: 20, borderWidth: 1, borderRadius: 20, padding: 10, borderColor: COMMON_COLOR_ENUM.GRAY, marginTop: 10 }}>
             <View style={{ flexDirection: "row", justifyContent: "center" }}>
               <Text style={[commonStyles.defaultTxt, { fontWeight: "500", color: COMMON_COLOR_ENUM.PRIMARY }]}>
                 {`${this_month && this_month.unfinish_count ? this_month.unfinish_count : 0}`}
@@ -226,9 +236,9 @@ const Presenter = (props) => {
                 보러가기
               </Text>
             </TouchableOpacity>
-          </View>
+          </View> */}
           <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
-            <Text style={{ fontWeight: "700", fontSize: 18, textAlign: "center", marginTop: 0, marginBottom: 10, color: "black" }}>
+            <Text style={{ fontWeight: "700", fontSize: 18, textAlign: "center", marginTop: 30, marginBottom: 10, color: "black" }}>
               {`${date ? date.toISOString().split("-")[1] + "월" : ""} 총 설치건수`}
             </Text>
             {/* <TouchableOpacity onPress={() => {
@@ -290,7 +300,7 @@ const Presenter = (props) => {
                     </Text> */}
           </View>
           <View style={{ alignItems: "center" }}>
-            <View style={{ flexDirection: "row", width: "100%", marginTop: 20 }}>
+            <View style={{ flexDirection: "row", width: "100%", marginTop: 20, flexWrap: "wrap" }}>
               {agencyFeeDetail.map((d, idx) =>
                 <AgencyFeeDetail
                   key={`afd-2-${idx}`}
@@ -307,6 +317,12 @@ const Presenter = (props) => {
           <AgencyFeePolicy />
         </CustomContainer>
       </ScrollView>
+      <View style={{ padding: COMMON_PAGE_PADDING, backgroundColor: 'white', marginTop: 0 }}>
+        <CustomButton
+          title="상세 조회하기"
+          onPress={() => navigation.navigate(STEP_NAVIGATE_ENUM.STEP2)}
+        />
+      </View>
     </>
   )
 }

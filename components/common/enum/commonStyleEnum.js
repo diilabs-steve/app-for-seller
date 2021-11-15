@@ -44,7 +44,7 @@ export const COMMON_INPUT_STYLE = {
         width: "100%",
         // color: "#AAADBD",
         backgroundColor: "#ffffff",
-        fontSize: COMMON_FONT_SIZE,
+        fontSize: COMMON_SMALL_FONT_SIZE,
         fontWeight: "500",
         borderWidth: 1,
         borderColor: "#D9DEE7"
