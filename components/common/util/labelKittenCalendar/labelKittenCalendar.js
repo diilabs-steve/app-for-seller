@@ -21,7 +21,7 @@ const LabelKittenCalendar = (props) => {
   /**
    * props
    */
-  const { style, selectDate, date, setDate, title, labelWidth, contentWidth, labelTextStyle = {} } = props;
+  const { style, selectDate, date, setDate, title, labelWidth, contentWidth, labelTextStyle = {}, btnStyle, contentStyle = {} } = props;
 
   /**
    * useEffect
@@ -55,15 +55,15 @@ const LabelKittenCalendar = (props) => {
    */
   return (
     <>
-      <View style={{ flexDirection: "row" }}>
-        <View style={{ width: labelWidth, justifyContent: "center" }}>
+      <View style={[{ flexDirection: "row" }, contentStyle]}>
+        <View style={{ width: labelWidth, justifyContent: "center", zIndex: 100, backgroundColor: "white" }}>
           <Text style={[labelTextStyle, { textAlign: "center", fontSize: labelTextStyle.fontSize ? labelTextStyle.fontSize : 16, fontWeight: "600" }]}>
             {title}
           </Text>
         </View>
         <View style={{ width: contentWidth }}>
           <Button
-            style={{ backgroundColor: "#f4f5f7", width: "81%", justifyContent: "flex-start", borderColor: "white", height: 45, borderRadius: 8 }}
+            style={[{ backgroundColor: "#f4f5f7", zIndex: 100, width: "81%", justifyContent: "flex-start", borderColor: "white", height: 45, borderRadius: 8 }, btnStyle]}
             onPress={() => dateRef.current.onPress()}
             children={() =>
               <Text>
@@ -73,10 +73,12 @@ const LabelKittenCalendar = (props) => {
             value={getFormDate(date, "-")}
           />
         </View>
-      </View>
+        <View style={{ display: "none" }}>
+
+        </View>
       <Datepicker
         ref={dateRef}
-        style={{ display: "none" }}
+        style={{ display: "none", position: "absolute", zIndex: 0 }}
         min={new Date("1990-01-01")}
         date={date}
         dateService={dateService}
@@ -88,6 +90,7 @@ const LabelKittenCalendar = (props) => {
           selectDate && selectDate(nextDate);
         }}
       />
+      </View>
     </>
   )
 }

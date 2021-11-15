@@ -9,6 +9,7 @@ import { COMMON_COLOR_ENUM } from '../../common/enum/commonColorEnum';
 import AlertModal from '../../common/util/alertModal';
 import Dropdown from '../../common/util/dropdown';
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
+import LabelKittenCalendar from '../../common/util/labelKittenCalendar/labelKittenCalendar';
 // import Label from '../../common/util/label';
 
 // const REQUEST_COLOR = "#FF806F";
@@ -49,34 +50,51 @@ const SearchSection = (props) => {
         setSearchOption,
         searchText,
         setSearchText,
-        handleBarcodeScanned
+        handleBarcodeScanned,
+        date,
+        setDate,
+        selectDate
     } = props;
 
     return (
         <View style={{ flexDirection: "row", padding: 10 }}>
             <Dropdown 
                 data={options} 
-                buttonStyle={{ width: "29%" }}
+                buttonStyle={{ width: "29%", bottom: 2 }}
                 value={searchOption.value}
                 onSelect={(selectedItem) => {
                     setSearchOption(selectedItem);
                 }}
             />
             <View style={{ width: "70%" }}>
+                {searchOption.value === "purchaseSeq" ?
                 <ScanInput 
                     {...props}
                     placeholder="모델 바코드 직접 입력"
-                    btnStyle={{ elevation: 0, width: 50, height: 50, marginLeft: 5 }}
-                    inputStyle={{ elevation: 0, borderWidth: 1, borderColor: COMMON_COLOR_ENUM.GRAY, height: 50, marginLeft: 5 }}
+                    btnStyle={{ elevation: 0, width: 50, height: 50, marginLeft: 5, bottom: 2 }}
+                    inputStyle={{ elevation: 0, borderWidth: 1, borderColor: COMMON_COLOR_ENUM.GRAY, height: 50, marginLeft: 5, bottom: 2 }}
                     scopeIconNone={true}
-                    inputWidth={searchOption.value === "purchaseSeq" ? "82%" : "100%"}
-                    btnVisible={searchOption.value === "purchaseSeq"}
+                    inputWidth={"100%"}
+                    btnVisible={false}
                     onPress={() => handleBarcodeScanned(searchText)}
                     onBarcodeScanned={handleBarcodeScanned} 
                     state={searchText}
                     setState={setSearchText}
                     // size="big"
-                />
+                /> 
+            :
+            <>
+            <LabelKittenCalendar
+            labelWidth="1%"
+            contentWidth="100%"
+            date={date}
+            setDate={setDate}
+            selectDate={selectDate}
+            btnStyle={{ width: "100%", height: 51, bottom: 2, right: 2 }}
+            contentStyle={{ position: "absolute" }}
+            />
+            </>
+            }
             </View>
         </View>
     )

@@ -17,6 +17,7 @@ export const TOKEN_REFRESH = "/user/sign/refresh";
  * PARTNER 거래처
  */
 export const PARTNER_LIST = "/user/partner/list";
+export const PARTNER = "/user/partner";
 
 /**
  * INFRA 인프라

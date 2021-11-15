@@ -1,8 +1,10 @@
 import React from 'react';
 import { Alert } from 'react-native';
-import { PARTNER_LIST, WAREHOUSE_LIST } from '../../../envVars';
+import { PARTNER, PARTNER_LIST, WAREHOUSE_LIST } from '../../../envVars';
+import { spliteDateNTime } from '../../../functions/dateObjFunc';
 import { STEP_NAVIGATE_ENUM } from '../../../navigationVar';
 import { restApiObjectConverter, fetchModelStockInfo, fetchPoList, fetchPoDetail } from '../../common/function/restApi';
+import SpinnerComponent from '../../common/util/spinner';
 import Presenter from './presenter';
 
 const Container = (props) => {
@@ -22,11 +24,11 @@ const Container = (props) => {
         },
         {
             text: "발주일",
-            value: "modelName"
+            value: "purchaseDate"
         },
         {
             text: "입고예정일",
-            value: "skuNumber"
+            value: "promiseDate"
         },
     ];
 
@@ -34,18 +36,20 @@ const Container = (props) => {
     const [searchText, setSearchText] = React.useState("");
     const [alertVisible, setAlertVisible] = React.useState(false);
     const [alertMessage, setAlertMessage] = React.useState("");
+    const [date, setDate] = React.useState(new Date());
     const [poList, setPoList] = React.useState([]);
     const [partnerObj, setPartnerObj] = React.useState({});
     const [centerObj, setCenterObj] = React.useState({});
+    const [activeSpinner, setActiveSpinner] = React.useState(false);
 
     const handleBarcodeScanned = async (searchText) => {
-        console.log(searchText)
+        setActiveSpinner(true)
+        // console.log(searchText?.toISOString()?.split("T")?.[0])
         let params;
 
         if (searchOption.value === "purchaseSeq") params = `?purchaseSeq=${searchText.trim()}`;
-        if (searchOption.value === "modelName") params = `?modelName=${searchText}`;
-        if (searchOption.value === "skuNumber") params = `?skuNumber=${searchText}`;
-
+        if (searchOption.value === "purchaseDate") params = `?fromPurchaseDate=${searchText?.toISOString()?.split("T")?.[0]}&toPurchaseDate=${searchText?.toISOString()?.split("T")?.[0]}`;
+        if (searchOption.value === "promiseDate") params = `?fromPromiseDate=${searchText?.toISOString()?.split("T")?.[0]}&toPromiseDate=${searchText?.toISOString()?.split("T")?.[0]}`;
         const rs = await fetchPoList(params);
         console.log(rs.data)
 
@@ -65,10 +69,12 @@ const Container = (props) => {
 
 
         
-
+            setActiveSpinner(false)
 
             setPoList(promiseResult);
         } else {
+            setPoList([]);
+            setActiveSpinner(false)
             // setAlertVisible(true);
             // setAlertMessage("존재하지 않는 모델입니다.");
         }
@@ -83,7 +89,7 @@ const Container = (props) => {
     }
 
     const fetchPartnerObj = async () => {
-        const rs = await restApiObjectConverter(PARTNER_LIST, {
+        const rs = await restApiObjectConverter(PARTNER, {
             key: "partnerSeq",
             value: "partnerName"
         });
@@ -104,8 +110,23 @@ const Container = (props) => {
         fetchCenterObj();
     }, [])
 
+    React.useEffect(() => {
+        if (searchOption.value !== "purchaseSeq") {
+            handleBarcodeScanned(date)
+        }
+    }, [searchOption.value])
 
+    const selectDate = (date) => {
+        console.log(typeof date);
+        setDate(date);
+        handleBarcodeScanned(date)
+
+    }
     return (
+        <>
+        {activeSpinner ?
+        <SpinnerComponent/>
+        :
         <Presenter 
             {...props}
             handleBarcodeScanned={handleBarcodeScanned}
@@ -121,7 +142,12 @@ const Container = (props) => {
             onCardPress={onCardPress}
             partnerObj={partnerObj}
             centerObj={centerObj}
+            selectDate={selectDate}
+            date={date}
+            setDate={setDate}
         />
+        }
+        </>
     );
 };
 
