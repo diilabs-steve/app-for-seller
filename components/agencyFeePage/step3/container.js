@@ -62,11 +62,80 @@ const Container = (props) => {
     },
   ]
 
+  const tableInfo = [
+    {
+      col1: "(건수/천원)",
+      col2: "청구권",
+      col3: "정산건",
+      col4: "청구료",
+      col5: "정산료"
+    },
+    {
+      col1: "출고합계",
+      col2: 135,
+      col3: 118,
+      col4: 33650,
+      col5: 22950,
+      isSum: true
+    },
+    {
+      col1: "설치완료",
+      col2: 135,
+      col3: 118,
+      col4: 33650,
+      col5: 22950
+    },
+    {
+      col1: "교환완료",
+      col2: 135,
+      col3: 118,
+      col4: 33650,
+      col5: 22950
+    },
+    {
+      col1: "불량회수",
+      col2: 135,
+      col3: 118,
+      col4: 33650,
+      col5: 22950
+    },
+    {
+      col1: "반납회수",
+      col2: 135,
+      col3: 118,
+      col4: 33650,
+      col5: 22950
+    },
+    {
+      col1: "출고합계",
+      col2: 135,
+      col3: 118,
+      col4: 33650,
+      col5: 22950,
+      isSum: true
+    },
+    {
+      col1: "회수only",
+      col2: 135,
+      col3: 118,
+      col4: 33650,
+      col5: 22950
+    },
+    {
+      col1: "재방문",
+      col2: 135,
+      col3: 118,
+      col4: 33650,
+      col5: 22950
+    },
+  ]
+
   return (
     <>
         <Presenter
           {...props}
           searchInfo={searchInfo}
+          tableInfo={tableInfo}
         />
     </>
   )

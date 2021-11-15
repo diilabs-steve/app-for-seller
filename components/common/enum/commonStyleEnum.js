@@ -22,7 +22,7 @@ export const COMMON_BOX_SHADOW = {
     shadowOpacity: .08,
     shadowRadius: 16,
     // elevation: 30,
-    elevation: 10,
+    elevation: 10
 };
 
 /**
