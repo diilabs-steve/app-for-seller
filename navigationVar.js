@@ -10,18 +10,7 @@ export const MAIN_NAVIGATE_ENUM = Object.freeze({
     MAIN: "홈",
     MODEL_SEARCH: "제품조회",
     PRODUCT_SEARCH: "상품조회",
-    GOODS_INFO: "상품정보",
-    INVENTORY_INVESTIGATE: "재고조사",
-    INVENTORY_MOVEMENT: "재고이동",
-    PALLET_MENAGEMENT: "팔레트관리",
-    CONFIRM_INCOMING_PO: "발주입고확정",
-    CONFIRM_INCOMING_PROD_LOCATION: "입고제품위치확정",
-    PIKING_TRUNK: "간선피킹",
-    INCOMING_TRUNK: "간선입고",
-    OUTGOING_TRUNK: "간선출고",
-    LOAN_PICKING: "차용피킹",
-    LOAN_DELIVERY: "차용출고",
-    COLLECT_INCOMING: "회수입고",
+    AGENCY_FEE: "대행료",
     USER_PROFILE: "내정보"
 });
 

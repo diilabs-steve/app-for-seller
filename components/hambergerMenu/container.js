@@ -140,7 +140,7 @@ const Container = (props) => {
                 title: "대행료",
                 image: AgencyFeeImg,
                 imgStyle: { width: 58, height: 58 },
-                onPress: () => navigation.navigate(MAIN_NAVIGATE_ENUM.INVENTORY_INVESTIGATE) 
+                onPress: () => navigation.navigate(MAIN_NAVIGATE_ENUM.AGENCY_FEE) 
             },
             {
                 title: "발주정보",
