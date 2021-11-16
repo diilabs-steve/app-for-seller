@@ -80,3 +80,8 @@ export const WAREHOUSE_FILE_LIST = (tableName, tableSeq) => `/warehouse/file/lis
  */
 export const PRODUCT_LIST = "/order/product/list";
 export const PRODUCT = "/order/product";
+
+/**
+ * ORDER 주문
+ */
+export const ORDER_LIST = "/order/list";

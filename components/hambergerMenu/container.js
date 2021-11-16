@@ -160,7 +160,7 @@ const Container = (props) => {
                 title: "주문정보",
                 image: OrderImg,
                 imgStyle: { width: 63.56, height: 65, bottom: 5 },
-                onPress: () => navigation.navigate(MAIN_NAVIGATE_ENUM.CONFIRM_INCOMING_PO)
+                onPress: () => navigation.navigate(MAIN_NAVIGATE_ENUM.ORDER_SEARCH)
             },
             {
                 title: "캐파조회",
